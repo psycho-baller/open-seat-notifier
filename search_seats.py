@@ -3,20 +3,20 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options  # for suppressing the browser
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
 
 import warnings
 from bs4 import BeautifulSoup as bs
 # import webbrowser
 
-import warnings
 
 
 Options = Options()
 Options.add_argument("--headless")
 with warnings.catch_warnings():
     warnings.simplefilter('ignore')
-    driver = webdriver.Firefox(executable_path='/geckodriver.exe')#,options=Options)
+    driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())#,options=Options)
 # remove the options argument if u wanna see the browser open and perform the automated process
 # %%
 def get_links(username,password):
