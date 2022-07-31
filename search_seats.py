@@ -2,22 +2,21 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options  # for suppressing the browser
+from selenium.webdriver.firefox.options import Options  # for suppressing the browser
 from selenium import webdriver
 
 import warnings
 from bs4 import BeautifulSoup as bs
 # import webbrowser
 
-from webdriver_manager.chrome import ChromeDriverManager
+import warnings
 
 
-options = Options()
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
-options.add_argument("--headless")
+Options = Options()
+Options.add_argument("--headless")
 with warnings.catch_warnings():
     warnings.simplefilter('ignore')
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Firefox(executable_path=r'geckodriver.exe')#,options=Options)
 # remove the options argument if u wanna see the browser open and perform the automated process
 # %%
 def get_links(username,password):

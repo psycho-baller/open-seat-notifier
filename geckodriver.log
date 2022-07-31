@@ -1,0 +1,37 @@
+1659272341251	geckodriver	INFO	Listening on 127.0.0.1:63515
+1659272344323	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "63516" "-no-remote" "-profile" "C:\\Users\\ramim\\AppData\\Local\\Temp\\rust_mozprofileOlunTt"
+1659272344702	Marionette	INFO	Marionette enabled
+1659272344709	Marionette	INFO	Listening on port 63521
+WebDriver BiDi listening on ws://localhost:63516
+1659272345004	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\ramim\\AppData\\Local\\Temp\\rust_mozprofileOlunTt\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:63516/devtools/browser/b41aabb2-ef42-4ba0-a172-3d9a014b6be9
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://ucalgary.sona-systems.com."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://ucalgary.sona-systems.com."
+1659272356188	Marionette	INFO	Stopped listening on port 63521
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+[Parent 118036, Main Thread] WARNING: ContentParent: id=2007867b600 - BlockShutdown: CanSend.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:3595
+[Parent 118036, Main Thread] WARNING: ContentParent: id=2007867b600 - ShutDownProcess: Sent shutdown message.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:1799
+[Parent 118036, Main Thread] WARNING: ContentParent: id=2007867b600 - ShutDownProcess: Closing channel.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:1834
+[Parent 118036, Main Thread] WARNING: ContentParent: id=2007867b600 - RemoveShutdownBlockers: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:3697
+1659272422692	geckodriver	INFO	Listening on 127.0.0.1:63573
+1659272425755	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "63574" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\ramim\\AppData\\Local\\Temp\\rust_mozprofileTENqV1"
+1659272426122	Marionette	INFO	Marionette enabled
+1659272426127	Marionette	INFO	Listening on port 63583
+WebDriver BiDi listening on ws://localhost:63574
+Read port: 63583
+1659272426255	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\ramim\\AppData\\Local\\Temp\\rust_mozprofileTENqV1\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:63574/devtools/browser/caf240ce-ea2c-4559-9161-6b683c092b11
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://ucalgary.sona-systems.com."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://ucalgary.sona-systems.com."
+1659272435975	Marionette	INFO	Stopped listening on port 63583
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3f77e900 - BlockShutdown: CanSend.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:3595
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3f77e900 - ShutDownProcess: Shutdown already pending.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:1815
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3b10f600 - BlockShutdown: CanSend.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:3595
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3b10f600 - ShutDownProcess: Sent shutdown message.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:1799
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3b10f600 - ShutDownProcess: Closing channel.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:1834
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3b10f600 - RemoveShutdownBlockers: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:3697
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3f77e900 - ShutDownProcess: Closing channel.: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:1834
+[Parent 113968, Main Thread] WARNING: ContentParent: id=1ff3f77e900 - RemoveShutdownBlockers: file /builds/worker/checkouts/gecko/dom/ipc/ContentParent.cpp:3697
