@@ -2,3 +2,4 @@ pip==22.0.4
 setuptools==58.1.0
 selenium
 webdriver-manager
+beautifulsoup4
