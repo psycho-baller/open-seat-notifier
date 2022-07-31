@@ -19,7 +19,6 @@ with warnings.catch_warnings():
     warnings.simplefilter('ignore')
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 # remove the options argument if u wanna see the browser open and perform the automated process
-
 # %%
 def get_links(username,password):
     url = 'https://ucalgary.sona-systems.com'
