@@ -1,12 +1,12 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 
-declare global {
-  namespace NodeJS {
-    interface Global {
-      prisma: PrismaClient;
-    }
-  }
-}
+// declare global {
+//   namespace NodeJS {
+//     interface Global {
+//       prisma: PrismaClient;
+//     }
+//   }
+// }
 declare global {
   // allow global `var` declarations
   // eslint-disable-next-line no-var

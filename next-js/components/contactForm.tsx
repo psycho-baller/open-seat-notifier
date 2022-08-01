@@ -13,8 +13,6 @@ import { useForm } from "react-hook-form";
 import { useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { rClickables } from "../animations/clickables";
-import prisma from "../lib/prisma";
-import {Prisma}  from '@prisma/client';
 
 
 const ContactForm = () => {
