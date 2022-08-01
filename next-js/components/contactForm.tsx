@@ -61,7 +61,7 @@ const ContactForm = () => {
     <Container p={4}>
       <Heading p={2}>Plz lemme hack u</Heading>
 
-      <form action="" onSubmit={() => handleSubmit(onSubmit)}>
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
           <FormLabel htmlFor="username">Username</FormLabel>
           <Input
