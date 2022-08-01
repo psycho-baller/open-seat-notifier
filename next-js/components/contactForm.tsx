@@ -23,6 +23,7 @@ const ContactForm = () => {
     formState: { errors, isSubmitting, isDirty },
   } = useForm({ defaultValues: { username: "", password: "", email: "" } });
   async function onSubmit(data: any) {
+    console.log("clicked")
     const email = data.email
     const username = data.username
     const password = data.password
