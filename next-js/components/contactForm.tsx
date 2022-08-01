@@ -25,35 +25,39 @@ const ContactForm = () => {
     formState: { errors, isSubmitting, isDirty },
   } = useForm({ defaultValues: { username: "", password: "", email: "" } });
   async function onSubmit(data: any) {
-    // @ts-ignore
-    const user: Prisma.UserCreateInput = {
-      email: data.email,
-      username: data.username,
-      password: data.password,
-    };
-    try {
-      // @ts-ignore
-      const addUser = await prisma.user.create({data: user});
-      console.log(addUser);
+    const email = data.email
+    const username = data.username
+    const password = data.password
+    const res = (await fetch(
+          "https://open-seat-finder.vercel.app/api/addUser",
+          {
+            method: "POST",
+            body: JSON.stringify({ email, username, password }),
+          }
+        )) as Response;
+        if (res.status === 201) {
       toast({
-        title: "User added successfully",
-        description: "You will recieving emails whenever new studies are up",
+        title: "Success!",
+        description: "Thank you for contacting us!",
         status: "success",
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
-    }
-    catch (error) {
-      console.log(error);
+    } else {
       toast({
-        title: "Error adding user",
-        description: "Please try again",
+        title: "Error!",
+        description: "Something went wrong, please try again.",
         status: "error",
         duration: 3000,
         isClosable: true,
       });
     }
   }
+    //   alert(JSON.stringify({ name, email, message }));
+    //   resolve();
+    //   }, 1000);
+    // });
+
   return (
     <Container p={4}>
       <Heading p={2}>Plz lemme hack u</Heading>
