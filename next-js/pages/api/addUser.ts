@@ -4,6 +4,11 @@ import prisma from "../../lib/prisma";
 import { Prisma } from "@prisma/client";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ message: `${req.method} requests are not allowed` });
+  }
   const { email, username, password } = JSON.parse(req.body);
 
   // @ts-ignore
