@@ -23,7 +23,7 @@ const ContactForm = () => {
     formState: { errors, isSubmitting, isDirty },
   } = useForm({ defaultValues: { username: "", password: "", email: "" } });
   async function onSubmit(data: any) {
-    console.log("clicked")
+    console.log("clickeda")
     const email = data.email
     const username = data.username
     const password = data.password
@@ -63,7 +63,7 @@ const ContactForm = () => {
 
       <form action="" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
-          <FormLabel htmlFor="name">Username</FormLabel>
+          <FormLabel id="username">Username</FormLabel>
           <Input
             focusBorderColor="yellow.200"
             {...register("username", {
@@ -74,7 +74,7 @@ const ContactForm = () => {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel id="email">Password</FormLabel>
+          <FormLabel id="password">Password</FormLabel>
           <Input
             focusBorderColor="yellow.200"
             {...register("password", {
@@ -113,6 +113,7 @@ const ContactForm = () => {
             isLoading={isSubmitting}
             type="submit"
             className="cursor-pointer flex-auto"
+            onClick={() => {console.log("clicked")}}
           >
             <motion.p
               initial="initial"
