@@ -61,17 +61,18 @@ const ContactForm = () => {
     <Container p={4}>
       <Heading p={2}>Plz lemme hack u</Heading>
 
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form action="" id="form" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
           <FormLabel htmlFor="username">Username</FormLabel>
           <Input
             id="username"
             focusBorderColor="yellow.200"
             type="text"
-            {...register("username"
-            // , {
-            //   required: "This is required",
-            // }
+            {...register(
+              "username"
+              // , {
+              //   required: "This is required",
+              // }
             )}
           />
         </FormControl>
@@ -81,10 +82,11 @@ const ContactForm = () => {
             id="password"
             focusBorderColor="yellow.200"
             type="password"
-            {...register("password"
-            // , {
-            //   required: "This is required",
-            // }
+            {...register(
+              "password"
+              // , {
+              //   required: "This is required",
+              // }
             )}
           />
         </FormControl>
@@ -94,10 +96,11 @@ const ContactForm = () => {
             id="email"
             focusBorderColor="yellow.200"
             type="email"
-            {...register("email"
-            // , {
-            //   required: "This is required",
-            // }
+            {...register(
+              "email"
+              // , {
+              //   required: "This is required",
+              // }
             )}
           />
           {!isDirty && (
@@ -135,6 +138,7 @@ const ContactForm = () => {
             whileHover="hover"
             whileTap="tap"
             variants={rClickables}
+            id="form"
           >
             Submit
           </motion.p>
