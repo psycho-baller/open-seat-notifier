@@ -13,16 +13,28 @@ import { useForm } from "react-hook-form";
 import { useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { rClickables } from "../animations/clickables";
+import { useFormik } from "formik";
 
 
 const ContactForm = () => {
   const toast = useToast();
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting, isDirty },
-  } = useForm({ defaultValues: { username: "", password: "", email: "" } });
-  async function onSubmit(data: any) {
+    const formik = useFormik({
+      initialValues: {
+        username: "",
+        email: "",
+        password: "",
+      },
+      onSubmit: (values) => {
+        // alert(JSON.stringify(values, null, 2));
+        _onSubmit(values);
+      },
+    });
+  // const {
+  //   handleSubmit,
+  //   register,
+  //   formState: { errors, isSubmitting, isDirty },
+  // } = useForm({ defaultValues: { username: "", password: "", email: "" } });
+  async function _onSubmit(data: any) {
     console.log("clickeda")
     const email = data.email
     const username = data.username
@@ -61,76 +73,57 @@ const ContactForm = () => {
     <Container p={4}>
       <Heading p={2}>Plz lemme hack u</Heading>
 
-      <form action="" id="form" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={formik.handleSubmit}>
         <FormControl isRequired>
           <FormLabel htmlFor="username">Username</FormLabel>
-          <input
+          <Input
+            focusBorderColor="yellow.200"
             id="username"
-            // focusBorderColor="yellow.200"
-            type="text"
-            {...register(
-              "username"
-              // , {
-              //   required: "This is required",
-              // }
-            )}
+            name="username"
+            type="username"
+            variant="filled"
+            onChange={formik.handleChange}
+            value={formik.values.username}
           />
         </FormControl>
         <FormControl isRequired>
           <FormLabel htmlFor="password">Password</FormLabel>
-          <input
+          <Input
+            focusBorderColor="yellow.200"
             id="password"
-            // focusBorderColor="yellow.200"
+            name="password"
             type="password"
-            {...register(
-              "password"
-              // , {
-              //   required: "This is required",
-              // }
-            )}
+            variant="filled"
+            onChange={formik.handleChange}
+            value={formik.values.password}
           />
         </FormControl>
         <FormControl isRequired>
           <FormLabel htmlFor="email">Email</FormLabel>
-          <input
+          <Input
+            focusBorderColor="yellow.200"
             id="email"
-            // focusBorderColor="yellow.200"
+            name="email"
             type="email"
-            {...register(
-              "email"
-              // , {
-              //   required: "This is required",
-              // }
-            )}
+            variant="filled"
+            onChange={formik.handleChange}
+            value={formik.values.email}
           />
-          {!isDirty && (
-            <FormHelperText>
-              Enter the message you would like to send me.
-            </FormHelperText>
-          )}
-          {errors && (
-            <>
-              <FormErrorMessage>{errors?.username?.message}</FormErrorMessage>
-              <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
-              <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
-            </>
-          )}
         </FormControl>
         {/* <div className="flex justify-center"> */}
         <Button
-          as={motion.div}
+          as={motion.button}
           initial="initial"
           animate="animate"
           whileHover="hover"
           whileTap="tap"
           variants={rClickables}
           mt={4}
-          isLoading={isSubmitting}
           type="submit"
           className="cursor-pointer flex-auto"
-          onClick={() => {
-            console.log("clicked");
-          }}
+          // onClick={() => {
+          //   console.log(formik.values);
+          // }}
         >
           <motion.p
             initial="initial"
@@ -138,7 +131,6 @@ const ContactForm = () => {
             whileHover="hover"
             whileTap="tap"
             variants={rClickables}
-            id="form"
           >
             Submit
           </motion.p>
