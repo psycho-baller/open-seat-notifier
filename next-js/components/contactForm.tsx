@@ -100,7 +100,7 @@ const ContactForm = () => {
             <FormErrorMessage>{errors.email.message}</FormErrorMessage>
           )}
         </FormControl>
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center"> */}
           <Button
             as={motion.div}
             initial="initial"
@@ -111,7 +111,7 @@ const ContactForm = () => {
             mt={4}
             isLoading={isSubmitting}
             type="submit"
-            className="cursor-pointer"
+            className="cursor-pointer flex-auto"
           >
             <motion.p
               initial="initial"
@@ -123,7 +123,7 @@ const ContactForm = () => {
               Submit
             </motion.p>
           </Button>
-        </div>
+        {/* </div> */}
       </form>
     </Container>
   );
