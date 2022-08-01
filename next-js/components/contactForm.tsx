@@ -63,33 +63,36 @@ const ContactForm = () => {
 
       <form action="" onSubmit={() => handleSubmit(onSubmit)}>
         <FormControl isRequired>
-          <FormLabel id="username">Username</FormLabel>
+          <FormLabel htmlFor="username">Username</FormLabel>
           <Input
+            id="username"
             focusBorderColor="yellow.200"
+            type="text"
             {...register("username", {
               required: "This is required",
             })}
-            type="text"
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel id="password">Password</FormLabel>
+          <FormLabel htmlFor="password">Password</FormLabel>
           <Input
+            id="password"
             focusBorderColor="yellow.200"
+            type="password"
             {...register("password", {
               required: "This is required",
             })}
-            type="password"
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel id="email">Email</FormLabel>
+          <FormLabel htmlFor="email">Email</FormLabel>
           <Input
+            id="email"
             focusBorderColor="yellow.200"
+            type="email"
             {...register("email", {
               required: "This is required",
             })}
-            type="email"
           />
           {!isDirty && (
             <FormHelperText>
