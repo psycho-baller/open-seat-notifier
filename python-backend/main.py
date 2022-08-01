@@ -27,33 +27,47 @@ def connect():
         db_version = cur.fetchone()
         print(db_version)
         
+        """ Create Table """
+        create_table='''
+CREATE TABLE public.main
+(
+    email character varying NOT NULL,
+    notified_studies character varying[] DEFAULT array[]::varchar[],
+    username character varying NOT NULL,
+    password character varying NOT NULL
+);
+
+ALTER TABLE IF EXISTS public.main
+    OWNER to lzpgnnepunoeer;'''
+        
         """ Commands """
         add_to_notified = 'UPDATE public.main SET "notified-studies" = array_append("notified-studies", %s);'
         get_all_data = '''SELECT * FROM public.main
             ORDER BY id ASC; '''
+        add_user = 'INSERT INTO public.main (email, username, password) VALUES (%s, %s, %s);'
 
         
         """ Playgroud"""
+        cur.execute(add_user, ('ramim66809@gmail.com','muhammad.tanveer', 'P63ZXfPE'))
 
-        cur.execute(get_all_data)
+        # cur.execute(get_all_data)
             
-        links_to_notify = []
-        results  = cur.fetchall()
-        for result in results:
-            email = result[0]
-            notified = result[2] if result[2] else []
-            new = result[3]
-            username = result[4]
-            password = result[5]
-            # print(email,notified, username, password)
-            links = get_links(username, password)
-            # add links to notified list
-            for link in links:
-                if link not in notified:
-                    links_to_notify.append(link)
-                    cur.execute(add_to_notified, (link,))
-            if links_to_notify:
-                send(email, links_to_notify)
+        # links_to_notify = []
+        # results  = cur.fetchall()
+        # for result in results:
+        #     email = result[0]
+        #     notified = result[1] if result[1] else []
+        #     username = result[2]
+        #     password = result[3]
+        #     # print(email,notified, username, password)
+        #     links = get_links(username, password)
+        #     # add links to notified list
+        #     for link in links:
+        #         if link not in notified:
+        #             links_to_notify.append(link)
+        #             cur.execute(add_to_notified, (link,))
+        #     if links_to_notify:
+        #         send(email, links_to_notify)
         
         
 

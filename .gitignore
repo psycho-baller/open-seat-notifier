@@ -1,4 +1,4 @@
-/open-seat-venv
-/__pycache__
+python-backend/open-seat-venv
+python-backend/__pycache__
 geckodriver.log
 database.ini
