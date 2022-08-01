@@ -3,7 +3,7 @@ import {
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-  Input,
+  input,
   Container,
   Heading,
   Button,
@@ -64,9 +64,9 @@ const ContactForm = () => {
       <form action="" id="form" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
           <FormLabel htmlFor="username">Username</FormLabel>
-          <Input
+          <input
             id="username"
-            focusBorderColor="yellow.200"
+            // focusBorderColor="yellow.200"
             type="text"
             {...register(
               "username"
@@ -78,9 +78,9 @@ const ContactForm = () => {
         </FormControl>
         <FormControl isRequired>
           <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
+          <input
             id="password"
-            focusBorderColor="yellow.200"
+            // focusBorderColor="yellow.200"
             type="password"
             {...register(
               "password"
@@ -92,9 +92,9 @@ const ContactForm = () => {
         </FormControl>
         <FormControl isRequired>
           <FormLabel htmlFor="email">Email</FormLabel>
-          <Input
+          <input
             id="email"
-            focusBorderColor="yellow.200"
+            // focusBorderColor="yellow.200"
             type="email"
             {...register(
               "email"
