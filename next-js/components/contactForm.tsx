@@ -39,6 +39,7 @@ const ContactForm = () => {
     const email = data.email
     const username = data.username
     const password = data.password
+    console.log(JSON.stringify({ email, username, password }));
     const res = (await fetch(
           "https://open-seat-finder.vercel.app/api/addUser",
           {
