@@ -69,7 +69,6 @@ const ContactForm = () => {
             {...register("username", {
               required: "This is required",
             })}
-            id="name"
             type="text"
           />
         </FormControl>
@@ -80,7 +79,7 @@ const ContactForm = () => {
             {...register("password", {
               required: "This is required",
             })}
-            type="email"
+            type="password"
           />
         </FormControl>
         <FormControl isRequired>
