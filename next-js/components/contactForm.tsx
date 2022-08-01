@@ -68,9 +68,11 @@ const ContactForm = () => {
             id="username"
             focusBorderColor="yellow.200"
             type="text"
-            {...register("username", {
-              required: "This is required",
-            })}
+            {...register("username"
+            // , {
+            //   required: "This is required",
+            // }
+            )}
           />
         </FormControl>
         <FormControl isRequired>
@@ -79,9 +81,11 @@ const ContactForm = () => {
             id="password"
             focusBorderColor="yellow.200"
             type="password"
-            {...register("password", {
-              required: "This is required",
-            })}
+            {...register("password"
+            // , {
+            //   required: "This is required",
+            // }
+            )}
           />
         </FormControl>
         <FormControl isRequired>
@@ -90,9 +94,11 @@ const ContactForm = () => {
             id="email"
             focusBorderColor="yellow.200"
             type="email"
-            {...register("email", {
-              required: "This is required",
-            })}
+            {...register("email"
+            // , {
+            //   required: "This is required",
+            // }
+            )}
           />
           {!isDirty && (
             <FormHelperText>
