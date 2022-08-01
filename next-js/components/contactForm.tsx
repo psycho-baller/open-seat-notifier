@@ -61,7 +61,7 @@ const ContactForm = () => {
     <Container p={4}>
       <Heading p={2}>Plz lemme hack u</Heading>
 
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form action="" onSubmit={() => handleSubmit(onSubmit)}>
         <FormControl isRequired>
           <FormLabel id="username">Username</FormLabel>
           <Input
@@ -96,34 +96,40 @@ const ContactForm = () => {
               Enter the message you would like to send me.
             </FormHelperText>
           )}
-          {errors.email && (
-            <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+          {errors && (
+            <>
+              <FormErrorMessage>{errors?.username?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
+            </>
           )}
         </FormControl>
         {/* <div className="flex justify-center"> */}
-          <Button
-            as={motion.div}
+        <Button
+          as={motion.div}
+          initial="initial"
+          animate="animate"
+          whileHover="hover"
+          whileTap="tap"
+          variants={rClickables}
+          mt={4}
+          isLoading={isSubmitting}
+          type="submit"
+          className="cursor-pointer flex-auto"
+          onClick={() => {
+            console.log("clicked");
+          }}
+        >
+          <motion.p
             initial="initial"
             animate="animate"
             whileHover="hover"
             whileTap="tap"
             variants={rClickables}
-            mt={4}
-            isLoading={isSubmitting}
-            type="submit"
-            className="cursor-pointer flex-auto"
-            onClick={() => {console.log("clicked")}}
           >
-            <motion.p
-              initial="initial"
-              animate="animate"
-              whileHover="hover"
-              whileTap="tap"
-              variants={rClickables}
-            >
-              Submit
-            </motion.p>
-          </Button>
+            Submit
+          </motion.p>
+        </Button>
         {/* </div> */}
       </form>
     </Container>
