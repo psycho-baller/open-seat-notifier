@@ -17,7 +17,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     username: username,
     password: password,
     notified_studies: [],
-    id: 1,
   };
   try {
     const addUser = await prisma.main.create({ data: user });
