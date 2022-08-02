@@ -12,5 +12,5 @@ model main {
   notified_studies String[] @default([]) @db.VarChar
   username         String   @db.VarChar
   password         String   @db.VarChar
-  id               BigInt   @id @default(autoincrement())
+  id               Int   @id @default(autoincrement())
 }
