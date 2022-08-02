@@ -35,11 +35,9 @@ const ContactForm = () => {
   //   formState: { errors, isSubmitting, isDirty },
   // } = useForm({ defaultValues: { username: "", password: "", email: "" } });
   async function _onSubmit(data: any) {
-    console.log("clickeda")
     const email = data.email
     const username = data.username
     const password = data.password
-    console.log(JSON.stringify({ email, username, password }));
     const res = (await fetch(
           "https://open-seat-finder.vercel.app/api/addUser",
           {

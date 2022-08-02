@@ -12,10 +12,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, username, password } = JSON.parse(req.body);
 
   // @ts-ignore
-  const user: Prisma.UserCreateInput = {
+  const user = {
     email: email,
     username: username,
     password: password,
+    id: parseInt(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),10)
     // notified_studies: [],
   };
   try {
