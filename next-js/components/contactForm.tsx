@@ -70,7 +70,7 @@ const ContactForm = () => {
 
   return (
     <Container p={4}>
-      <Heading p={2}>Plz lemme hack u</Heading>
+      <Heading p={2}>Open Seat Finder</Heading>
 
       <form onSubmit={formik.handleSubmit}>
         <FormControl isRequired>
@@ -109,7 +109,7 @@ const ContactForm = () => {
             value={formik.values.email}
           />
         </FormControl>
-        {/* <div className="flex justify-center"> */}
+        <div className="flex justify-center">
         <Button
           as={motion.button}
           initial="initial"
@@ -119,10 +119,7 @@ const ContactForm = () => {
           variants={rClickables}
           mt={4}
           type="submit"
-          className="cursor-pointer flex-auto"
-          // onClick={() => {
-          //   console.log(formik.values);
-          // }}
+          className="cursor-pointer"
         >
           <motion.p
             initial="initial"
@@ -134,7 +131,7 @@ const ContactForm = () => {
             Submit
           </motion.p>
         </Button>
-        {/* </div> */}
+        </div>
       </form>
     </Container>
   );
