@@ -7,10 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model main {
   email            String   @db.VarChar
-  notified_studies String[]? @default([]) @db.VarChar
+  notified_studies String[] @default([]) @db.VarChar
   username         String   @db.VarChar
   password         String   @db.VarChar
   id               BigInt   @id @default(autoincrement())
