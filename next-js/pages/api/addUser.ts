@@ -16,7 +16,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     email: email,
     username: username,
     password: password,
-    id: 1,
   };
   try {
     const addUser = await prisma.main.create({ data: user });
