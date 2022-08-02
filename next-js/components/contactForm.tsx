@@ -47,10 +47,10 @@ const ContactForm = () => {
         )) as Response;
         if (res.status === 201) {
       toast({
-        title: "Success!",
-        description: "Thank you for contacting us!",
+        title:"User added successfully",
+        description:"You will be receiving an email whenever a new study is up",
         status: "success",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
       });
     } else {
