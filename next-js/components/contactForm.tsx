@@ -131,7 +131,7 @@ const ContactForm = () => {
         <FormControl isRequired>
           <FormLabel htmlFor="email">Email</FormLabel>
           <Input
-            placeholder="rick.astley@gmail.com"
+            placeholder="rick.astley@ucalgary.ca"
             focusBorderColor="green.300"
             id="email"
             name="email"
