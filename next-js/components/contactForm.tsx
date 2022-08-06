@@ -91,7 +91,7 @@ const ContactForm = () => {
   const handleClick = () => setShow(!show);
 
   return (
-    <Container={4}>
+    <Container p={4}>
       <Heading p={2}>Open Seat Finder</Heading>
 
       <form onSubmit={formik.handleSubmit}>
