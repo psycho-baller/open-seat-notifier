@@ -47,7 +47,7 @@ export const Navbar = () => {
             <PopoverFooter>
               <a
                 className={`text-lime-300 hover:text-orange-300`}
-                href="https://github.com/psycho-baller/open-seat-finder/issues"
+                href="https://github.com/psycho-baller/open-seat-notifier/issues"
                 rel="noopener noreferrer"
                 target="_blank"
               >File an issue</a> or <a

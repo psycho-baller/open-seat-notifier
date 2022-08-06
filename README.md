@@ -1,4 +1,4 @@
-# Open Seat Finder
+# Open Seat Notifier
 V1.0 of this project: https://github.com/psycho-baller/UCalgary-research-participation
 
 ## Table of contents
@@ -32,7 +32,7 @@ Please [connect with me](#connect-with-me) if you have any good ideas to improve
 
 # Connect with me
 
-if you face any problems or interested in learning how I did this, please feel free to [add an issue](https://github.com/psycho-baller/open-seat-finder/issues) or contact me through:
+if you face any problems or interested in learning how I did this, please feel free to [add an issue](https://github.com/psycho-baller/open-seat-Notifier/issues) or contact me through:
 
 discord: `Rami#2782`
 

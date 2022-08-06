@@ -91,11 +91,11 @@ const ContactForm = () => {
   const handleClick = () => setShow(!show);
 
   return (
-    <Container p={4}>
-      <Heading p={2}>Open Seat Finder</Heading>
+    <Container p={3}>
+      <Heading py={2}>Open Seat Notifier</Heading>
 
       <form onSubmit={formik.handleSubmit}>
-        <FormControl isRequired>
+        <FormControl isRequired py={2}>
           <FormLabel htmlFor="username">User ID</FormLabel>
           <Input
             placeholder="rick.astley"
@@ -108,7 +108,7 @@ const ContactForm = () => {
             value={formik.values.username}
           />
         </FormControl>
-        <FormControl isRequired>
+        <FormControl isRequired py={2}>
           <FormLabel htmlFor="password">Password</FormLabel>
           <InputGroup>
             <Input
@@ -128,7 +128,7 @@ const ContactForm = () => {
             </InputRightElement>
           </InputGroup>
         </FormControl>
-        <FormControl isRequired>
+        <FormControl isRequired py={2}>
           <FormLabel htmlFor="email">Email</FormLabel>
           <Input
             placeholder="rick.astley@ucalgary.ca"
