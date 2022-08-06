@@ -64,9 +64,9 @@ const ContactForm = () => {
         .send(
           "open seat finder",
           "osf_t",
-          "KLIkJe8rPjR9Cj6Sj",
           //@ts-ignore
           email_to_send_to,
+          "KLIkJe8rPjR9Cj6Sj"
         )
         .then(
           (result) => {
