@@ -16,8 +16,11 @@ import { motion } from "framer-motion";
 import { rClickables } from "../animations/clickables";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { useRef } from "react";
+import emailjs from "emailjs-com";
 
 const ContactForm = () => {
+  const form = useRef();
   const toast = useToast();
   const formik = useFormik({
     initialValues: {
@@ -28,13 +31,9 @@ const ContactForm = () => {
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       _onSubmit(values);
+
     },
   });
-  // const {
-  //   handleSubmit,
-  //   register,
-  //   formState: { errors, isSubmitting, isDirty },
-  // } = useForm({ defaultValues: { username: "", password: "", email: "" } });
   async function _onSubmit(data: any) {
     const email = data.email;
     const username = data.username;
@@ -47,6 +46,7 @@ const ContactForm = () => {
       }
     )) as Response;
     if (res.status === 201) {
+      
       toast({
         title: "User added successfully",
         description:
@@ -55,6 +55,21 @@ const ContactForm = () => {
         duration: 5000,
         isClosable: true,
       });
+      emailjs
+        .sendForm(
+          "open seat finder",
+          "template_ziffu2r",
+          data.email,
+          "KLIkJe8rPjR9Cj6Sj"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
     } else {
       toast({
         title: "Error!",

@@ -11,9 +11,11 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.0.6",
     "@chakra-ui/react": "^2.2.4",
+    "@emailjs/browser": "^3.6.2",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@prisma/client": "^4.1.1",
+    "emailjs-com": "^3.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^6.5.1",
     "next": "12.2.3",
