@@ -65,8 +65,7 @@ const ContactForm = () => {
           "open seat finder",
           "osf_t",
           "KLIkJe8rPjR9Cj6Sj",
-          //@ts-ignore
-          email_to_send_to
+          form.current,
         )
         .then(
           (result) => {
@@ -91,7 +90,8 @@ const ContactForm = () => {
   const handleClick = () => setShow(!show);
 
   return (
-    <Container p={4}>
+    //@ts-ignore
+    <Container ref={form} p={4}>
       <Heading p={2}>Open Seat Finder</Heading>
 
       <form onSubmit={formik.handleSubmit}>
