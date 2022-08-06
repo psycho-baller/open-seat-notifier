@@ -1,6 +1,5 @@
 # Open Seat Finder
-
-V1.0: https://github.com/psycho-baller/UCalgary-research-participation
+V1.0 of this project: https://github.com/psycho-baller/UCalgary-research-participation
 
 ## Table of contents
 
@@ -13,20 +12,7 @@ V1.0: https://github.com/psycho-baller/UCalgary-research-participation
 
 If you're a UCalgary student and taking PSYC 200,201,203? This could be helpful for you.
 
-The purpose of this website is to provide a service to the people who are currently enrolled into the{" "} 
-<a
-href="https://www.ucalgary.ca/pubs/calendar/current/psychology.html"
-className={`text-lime-300 hover:text-orange-300`}
-target="\_blank"
-rel="noopener noreferrer" >
-University of Calgary&apos;s PSYC intro courses (200, 201, 203)
-</a>
-, where we suffer from constantly trying to find research
-participation which is one of the requirements for these courses. So
-what I decided to do was to create a website where people can submit
-their credentials here and email so that when there&apos;s a new study
-available, they would be automatically notified, instead of constantly
-checking the website.
+The purpose of this website is to provide a service to the people who are currently enrolled into [University of Calgary's PSYC intro courses (200, 201, 203)](https://www.ucalgary.ca/pubs/calendar/current/psychology.html), where we suffer from constantly trying to find research participation which is one of the requirements for these courses. So what I decided to do was to create a website where people can submit their credentials here and email so that when there's a new study available, they would be automatically notified, instead of constantly checking the website.
 
 Please [connect with me](#connect-with-me) if you have any good ideas to improve this project in any way.
 
@@ -46,7 +32,7 @@ Please [connect with me](#connect-with-me) if you have any good ideas to improve
 
 # connect with me
 
-if you face any problems or interested in learning how I did this, please feel free to contact me through:
+if you face any problems or interested in learning how I did this, please feel free to [add an issue](https://github.com/psycho-baller/open-seat-finder/issues) or contact me through:
 
 discord: `Rami#2782`
 
@@ -57,3 +43,8 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 [Linkedin](https://www.linkedin.com/in/rami--maalouf/)
 
 # Future plans
+
+- [ ] Encrypt passwords
+- [ ] unsubscribe from emails
+- [ ] change password
+- [ ] better email

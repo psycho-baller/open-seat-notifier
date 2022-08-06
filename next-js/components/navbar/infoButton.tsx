@@ -28,7 +28,7 @@ const InfoButton = () => {
         <PopoverHeader>What is this? 🤔</PopoverHeader>
         <PopoverBody>
           The purpose of this website is to provide a service to the people who
-          are currently enrolled into the{" "}
+          are currently enrolled into{" "}
           <a
             href="https://www.ucalgary.ca/pubs/calendar/current/psychology.html"
             className={`text-lime-300 hover:text-orange-300`}
