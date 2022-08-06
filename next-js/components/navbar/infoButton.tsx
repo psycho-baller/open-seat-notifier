@@ -25,11 +25,35 @@ const InfoButton = () => {
       <PopoverContent>
         <PopoverArrow />
         <PopoverCloseButton />
-        <PopoverHeader>Hey!</PopoverHeader>
+        <PopoverHeader>What is this? 🤔</PopoverHeader>
         <PopoverBody>
-          
+          The purpose of this website is to provide a service to the people who
+          are currently enrolled into the {" "}
+          <a
+            href="https://www.ucalgary.ca/pubs/calendar/current/psychology.html"
+            className={`text-lime-300 hover:text-orange-300`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            University of Calgary's PSYC intro courses (200, 201, 203)
+          </a>
+          , where we suffer from constantly trying to find research
+          participation which is one of the requirements for these courses. So
+          what I decided to do was to create a website where people can submit
+          their credentials here and email so that when there's a new study
+          available, they would be automatically notified, instead of constantly
+          checking the website.
         </PopoverBody>
-        <PopoverFooter>V2.0</PopoverFooter>
+        <PopoverFooter>
+          <a
+            href="https://github.com/psycho-baller/open-seat-finder"
+            className={`text-lime-300 hover:text-orange-300`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            V2.0
+          </a>
+        </PopoverFooter>
       </PopoverContent>
     </Popover>
   );
