@@ -19,6 +19,10 @@ import { useState } from "react";
 import { useRef } from "react";
 import emailjs from "emailjs-com";
 
+interface Email {
+  email: string;
+}
+
 const ContactForm = () => {
   const form = useRef();
   const toast = useToast();
@@ -31,7 +35,6 @@ const ContactForm = () => {
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       _onSubmit(values);
-
     },
   });
   async function _onSubmit(data: any) {
@@ -46,7 +49,6 @@ const ContactForm = () => {
       }
     )) as Response;
     if (res.status === 201) {
-      
       toast({
         title: "User added successfully",
         description:
@@ -55,12 +57,16 @@ const ContactForm = () => {
         duration: 5000,
         isClosable: true,
       });
+      const email_to_send_to = {
+        email: email as string,
+      };
       emailjs
         .sendForm(
           "open seat finder",
-          "template_ziffu2r",
-          data.email,
-          "KLIkJe8rPjR9Cj6Sj"
+          "osf_t",
+          "KLIkJe8rPjR9Cj6Sj",
+          //@ts-ignore
+          email_to_send_to
         )
         .then(
           (result) => {
