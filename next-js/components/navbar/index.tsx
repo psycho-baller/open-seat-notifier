@@ -12,6 +12,7 @@ import {
   Spacer,
   DarkMode,
   Heading,
+  PopoverFooter,
 } from "@chakra-ui/react";
 import InfoButton from "./infoButton";
 
@@ -43,6 +44,19 @@ export const Navbar = () => {
               each user (it&apos;s different for each user) and if there is a
               study up, an email will be automatically sent to you.
             </PopoverBody>
+            <PopoverFooter>
+              <a
+                className={`text-lime-300 hover:text-orange-300`}
+                href="https://github.com/psycho-baller/open-seat-finder/issues"
+                rel="noopener noreferrer"
+                target="_blank"
+              >File an issue</a> or <a
+                className={`text-lime-300 hover:text-orange-300`}
+                href="https://www.linkedin.com/in/rami--maalouf/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >message me on LinkedIn</a>
+            </PopoverFooter>
           </PopoverContent>
         </Popover>
       </Box>
