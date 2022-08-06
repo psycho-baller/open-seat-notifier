@@ -61,11 +61,12 @@ const ContactForm = () => {
         email: email as string,
       };
       emailjs
-        .sendForm(
+        .send(
           "open seat finder",
           "osf_t",
           "KLIkJe8rPjR9Cj6Sj",
-          form.current,
+          //@ts-ignore
+          email_to_send_to,
         )
         .then(
           (result) => {
@@ -90,8 +91,7 @@ const ContactForm = () => {
   const handleClick = () => setShow(!show);
 
   return (
-    //@ts-ignore
-    <Container ref={form} p={4}>
+    <Container={4}>
       <Heading p={2}>Open Seat Finder</Heading>
 
       <form onSubmit={formik.handleSubmit}>
