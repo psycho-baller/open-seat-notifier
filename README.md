@@ -3,9 +3,9 @@ V1.0 of this project: https://github.com/psycho-baller/UCalgary-research-partici
 
 ## Table of contents
 
-- [What it does](#What-it-does)
-- [Technologies used](#technologies-used)
-- [connect with me](#connect-with-me)
+- [What it does](#what-it-does)
+- [Technologies used](#technologies-used-tech-stack)
+- [Connect with me](#connect-with-me)
 - [Future plans](#future-plans)
 
 # What it does
@@ -30,7 +30,7 @@ Please [connect with me](#connect-with-me) if you have any good ideas to improve
 - **[Chakra-UI](https://chakra-ui.com/)** to help build the front-end.
 - **[tailwindcss](https://tailwindcss.com/)** to help speed up the process of building the front-end.
 
-# connect with me
+# Connect with me
 
 if you face any problems or interested in learning how I did this, please feel free to [add an issue](https://github.com/psycho-baller/open-seat-finder/issues) or contact me through:
 
