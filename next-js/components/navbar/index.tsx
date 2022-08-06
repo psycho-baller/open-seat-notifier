@@ -39,8 +39,8 @@ export const Navbar = () => {
               </a>{" "}
               and your email address that you want to be notified with, your
               data will be securely stored in a remote database which will only
-              be read by a script that checks for new research opportunities
-              for each user (it's different for each user) and if there is a
+              be read by a script that checks for new research opportunities for
+              each user (it&apos;s different for each user) and if there is a
               study up, an email will be automatically sent to you.
             </PopoverBody>
           </PopoverContent>
