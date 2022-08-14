@@ -51,7 +51,7 @@ const InfoButton = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            V2.0
+            V1.0
           </a>
         </PopoverFooter>
       </PopoverContent>
