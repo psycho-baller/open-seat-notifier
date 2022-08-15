@@ -1,13 +1,10 @@
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   Container,
   Heading,
   Button,
-  VStack,
   InputRightElement,
   InputGroup,
 } from "@chakra-ui/react";
@@ -16,15 +13,10 @@ import { motion } from "framer-motion";
 import { lClickables, rClickables } from "../animations/clickables";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { useRef } from "react";
 import emailjs from "emailjs-com";
 
-interface Email {
-  email: string;
-}
 
 const ContactForm = () => {
-  const form = useRef();
   const toast = useToast();
   const formik = useFormik({
     initialValues: {
@@ -33,7 +25,6 @@ const ContactForm = () => {
       password: "",
     },
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
       _onSubmit(values);
     },
   });
@@ -52,7 +43,7 @@ const ContactForm = () => {
       toast({
         title: "User added successfully",
         description:
-          "You will be receiving an email whenever a new study is up",
+          "You will be receiving a confirmation email shortly!",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -64,7 +55,6 @@ const ContactForm = () => {
         .send(
           "open seat finder",
           "osf_t",
-          //@ts-ignore
           email_to_send_to,
           "KLIkJe8rPjR9Cj6Sj"
         )
