@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { rClickables } from "../animations/clickables";
+import { lClickables, rClickables } from "../animations/clickables";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useRef } from "react";
@@ -158,7 +158,7 @@ const ContactForm = () => {
               animate="animate"
               whileHover="hover"
               whileTap="tap"
-              variants={rClickables}
+              variants={lClickables}
             >
               Notify Me
             </motion.p>

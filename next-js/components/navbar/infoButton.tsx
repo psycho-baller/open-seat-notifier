@@ -11,6 +11,11 @@ import {
   PopoverCloseButton,
   PopoverAnchor,
 } from "@chakra-ui/react";
+import { rClickables } from "../../animations/clickables";
+import { motion } from "framer-motion";
+
+
+
 const InfoButton = () => {
   return (
     <Popover>
@@ -20,6 +25,12 @@ const InfoButton = () => {
           aria-label="Info"
           // size="4xs"
           fontSize={25}
+          as={motion.button}
+          initial="initial"
+          animate="animate"
+          whileHover="hover"
+          whileTap="tap"
+          variants={rClickables}
         />
       </PopoverTrigger>
       <PopoverContent>
