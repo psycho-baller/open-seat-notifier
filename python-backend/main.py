@@ -48,7 +48,6 @@ ALTER TABLE IF EXISTS public.main
 
         
         """ Playgroud"""
-        # cur.execute(add_user, ('ramim66809@gmail.com','muhammad.tanveer', 'P63ZXfPE'))
 
         cur.execute(get_all_data)
             
@@ -83,11 +82,7 @@ ALTER TABLE IF EXISTS public.main
 def main():
     # Connect to the Postgres database
     connect()
-    
-    # email_to = 'ramim66809@gmail.com'
-    # links = get_links('muhammad.tanveer', 'P63ZXfPE')
-    # if len(links) > 0:
-    #     send(email_to, links)
+
 
 
 if __name__ == "__main__":
