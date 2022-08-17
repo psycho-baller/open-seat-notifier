@@ -23,7 +23,7 @@ Location: {data['location']}</h5>
     email_password = 'dwlrbisufxnnneju'
 
     email_receiver = email_to
-    
+
     # Set the subject and body of the email
     subject = 'New Research Participation Opportunities!'
     len_links = len(links)
@@ -31,11 +31,14 @@ Location: {data['location']}</h5>
     opportunity = 'opportunity' if len_links == 1 else 'opportunities'
     body = f"""
 <html>
-    <body>
+  <body>
     <p>
     Good news! there {is_or_are} {len_links} new research {opportunity}!
     </p>
     {studies}
+    <p>
+    You will be automatically unsubscribed and your credentials will be erased from our database when the course ends. But if you would like to unsubscribe now, <a href="https://open-seat-notifier.vercel.app/">click here
+    <p/>
   </body>
 </html>
 """

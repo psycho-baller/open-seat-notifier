@@ -58,7 +58,6 @@ def get_details(url):
     credits_ = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblCreditTotal'}).get_text()
     duration = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblDuration'}).get_text()
     location = soup.find('div', {'class': 'col-md-11'}).find("strong").get_text().strip("\n\t")
-    print(location)
     return title, description, credits_, duration, location
 
 def close_driver():
