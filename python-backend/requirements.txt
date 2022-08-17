@@ -3,3 +3,4 @@ setuptools==58.1.0
 selenium
 webdriver-manager
 bs4
+pycryptodome

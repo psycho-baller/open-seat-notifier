@@ -3,6 +3,7 @@ from send_email import send
 import psycopg2
 #!/usr/bin/python
 from config import config
+from decrypt import decrypt
 
 
 def connect():
@@ -57,16 +58,17 @@ ALTER TABLE IF EXISTS public.main
             email = result[0]
             notified = result[1] if result[1] else []
             username = result[2]
-            password = result[3]
-            # print(email,notified, username, password)
+            password = decrypt(result[3])
             links = get_links(username, password)
+            # print(email,notified, username, password)
+            
             # add links to notified list
-            for link in links:
-                if link not in notified:
-                    links_to_notify.append(link)
-                    cur.execute(add_to_notified, (link,))
-            if links_to_notify:
-                send(email, links_to_notify)
+            # for link in links:
+            #     if link not in notified:
+            #         links_to_notify.append(link)
+            #         cur.execute(add_to_notified, (link,))
+            # if links_to_notify:
+            #     send(email, links_to_notify)
         
         
 

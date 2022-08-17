@@ -14,6 +14,7 @@ import { lClickables, rClickables } from "../animations/clickables";
 import { useFormik } from "formik";
 import { useState } from "react";
 import emailjs from "emailjs-com";
+import { encrypt } from "../utils/encrypt";
 
 
 const ContactForm = () => {
@@ -31,7 +32,9 @@ const ContactForm = () => {
   async function _onSubmit(data: any) {
     const email = data.email;
     const username = data.username;
-    const password = data.password;
+    const password = encrypt(data.password);
+    console.log(email, username, password);
+
     const res = (await fetch(
       "https://open-seat-notifier.vercel.app/api/addUser",
       {
