@@ -43,10 +43,23 @@ def get_links(username, password):
     table_row = soup.find('tr').parent.findNextSibling()
     study_links = table_row.findAll('a')
 
-    driver.quit()
-
     links = set()
     for link in study_links:
         links.add(f'{home_page}{link.get("href")}')
 
-    return links
+    return ['https://ucalgary.sona-systems.com/exp_info_participant.aspx?experiment_id=1573', 'https://ucalgary.sona-systems.com/exp_info_participant.aspx?experiment_id=1618']  # links
+
+def get_details(url):
+    driver.get(url)
+    html = driver.page_source
+    soup = bs(html, 'html.parser')
+    title = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblStudyName'}).get_text()
+    description = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblLongDesc'}).get_text()
+    credits_ = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblCreditTotal'}).get_text()
+    duration = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblDuration'}).get_text()
+    location = soup.find('div', {'class': 'col-md-11'}).find("strong").get_text().strip("\n\t")
+    print(location)
+    return title, description, credits_, duration, location
+
+def close_driver():
+    driver.quit()

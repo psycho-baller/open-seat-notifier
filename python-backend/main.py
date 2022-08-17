@@ -1,4 +1,4 @@
-from search_seats import get_links
+from search_seats import get_links, get_details, close_driver
 from send_email import send
 import psycopg2
 #!/usr/bin/python
@@ -47,12 +47,10 @@ ALTER TABLE IF EXISTS public.main
             ORDER BY id ASC; '''
         add_user = 'INSERT INTO public.main (email, username, password) VALUES (%s, %s, %s);'
 
-        
-        """ Playgroud"""
 
+        """ Playgroud"""
         cur.execute(get_all_data)
-            
-        links_to_notify = []
+
         results  = cur.fetchall()
         for result in results:
             email = result[0]
@@ -64,14 +62,28 @@ ALTER TABLE IF EXISTS public.main
             
             links = get_links(username, password)
             
+            links_to_notify = []
+
             # add links to notified list
             for link in links:
                 if link not in notified:
-                    links_to_notify.append(link)
+                    # Make a new hasMap for the new link
+                    data = {}
+                    data["link"] = link
+                    title, description, credits_, duration, location = get_details(link)
+                    data["title"] = title
+                    data["description"] = description
+                    data["credits"] = credits_
+                    data["duration"] = duration
+                    data["location"] = location
+                    # After adding the details that we wanna show in the email,
+                    # we add it to the list that we wanna send to the email
+                    links_to_notify.append(data)
                     cur.execute(add_to_notified, (link,))
             if links_to_notify:
+                # print(f'{email} has new research opportunities!')
                 send(email, links_to_notify)
-        
+        close_driver()
         
 
 	    # close the communication with the PostgreSQL
