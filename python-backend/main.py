@@ -79,9 +79,8 @@ ALTER TABLE IF EXISTS public.main
                     # After adding the details that we wanna show in the email,
                     # we add it to the list that we wanna send to the email
                     links_to_notify.append(data)
-                    # cur.execute(add_to_notified, (link,))
+                    cur.execute(add_to_notified, (link,))
             if links_to_notify:
-                # print(f'{email} has new research opportunities!')
                 send(email, links_to_notify)
         close_driver()
 
