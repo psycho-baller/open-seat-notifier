@@ -4,7 +4,8 @@ import psycopg2
 #!/usr/bin/python
 from config import config
 from decrypt import decrypt
-
+# To activate the venv, run the following command in bash:
+# source open-seat-venv/Scripts/activate
 
 def connect():
     """ Connect to the PostgreSQL database server """
