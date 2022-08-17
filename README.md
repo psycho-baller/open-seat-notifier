@@ -20,12 +20,12 @@ Please [connect with me](#connect-with-me) if you have any good ideas to improve
 
 - **[NextJs](https://nextjs.org/)** to create a full-stack **[ReactJs](https://reactjs.org/)** Application.
 - **[TypeScript](https://www.typescriptlang.org/)** to create a type-safe code.
-- **[python]**(https://www.python.org/) to create the backend (scrape the website and send email automatically).
+- **[Python](https://www.python.org/)** to create the backend (scrape the website and send email automatically).
 - **[PostgreSQL](https://www.postgresql.org/)** to store the data.
   - 1st time using it.
 - **[Prisma](https://www.prisma.io/)** a safer, smoother way to interact with the database, especially with next-js.
   - 1st time using it.
-- **[EmailJS](https://www.emailjs.com/)** to send email automatically.
+- **[EmailJS](https://www.emailjs.com/)** to send emails automatically.
   - 1st time using it.
 - **[Chakra-UI](https://chakra-ui.com/)** to help build the front-end.
 - **[tailwindcss](https://tailwindcss.com/)** to help speed up the process of building the front-end.
@@ -44,7 +44,7 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 
 # Future plans
 
-- [ ] Encrypt passwords
+- [x] Encrypt passwords
 - [ ] unsubscribe from emails
 - [ ] change password
-- [ ] better email
+- [x] better email
