@@ -1,14 +1,20 @@
 # Open Seat Notifier
 
 - V0.1 of this project: https://github.com/psycho-baller/UCalgary-research-participation
-- Video Demonstration: https://youtu.be/25zjPEMxwbk
 
 ## Table of contents
 
+- [Video Demonstration](#video-demonstration)
 - [What it does](#what-it-does)
 - [Technologies used](#technologies-used-tech-stack)
 - [Connect with me](#connect-with-me)
 - [Future plans](#future-plans)
+
+# [Video Demonstration](https://youtu.be/25zjPEMxwbk)
+
+https://user-images.githubusercontent.com/81759594/185756962-e055cec3-6163-43dc-8c6f-6c9f81ae1e0e.mp4
+
+[youtube video](https://youtu.be/25zjPEMxwbk)
 
 # What it does
 
