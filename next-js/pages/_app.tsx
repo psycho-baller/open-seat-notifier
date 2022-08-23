@@ -23,12 +23,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         `}
       </Script>
       <Head>
+        {/* SEO:
+        https://cheatcode.co/tutorials/how-to-handle-seo-metadata-in-next-js */}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
           name="description"
           content="Get Notified when a research study is up for you"
         />
+        <title>Open Seat Notifier</title>
+        <link rel="icon" href="https://ucalgary.sona-systems.com/favicon.ico" />
       </Head>
       <ChakraProvider>
         <Component {...pageProps} />

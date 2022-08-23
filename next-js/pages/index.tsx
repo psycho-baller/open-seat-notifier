@@ -8,11 +8,6 @@ import styles from '../styles/Home.module.css'
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Open Seat Notifier</title>
-        
-        <link rel="icon" href="https://ucalgary.sona-systems.com/favicon.ico" />
-      </Head>
       <Navbar />
       <main className={styles.main}>
         <ContactForm />
