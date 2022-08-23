@@ -1,5 +1,7 @@
 # Open Seat Notifier
 
+[![wakatime](https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/790ea500-6623-4ca0-8d24-29c31f9bb2c5.svg?style=flat-square)](https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/790ea500-6623-4ca0-8d24-29c31f9bb2c5)
+
 - V0.1 of this project: https://github.com/psycho-baller/UCalgary-research-participation
 
 ## Table of contents
