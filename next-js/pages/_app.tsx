@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Script>
       <Head>
         {/* SEO:
+        https://www.youtube.com/watch?v=imsyg1wRa_Y
         https://cheatcode.co/tutorials/how-to-handle-seo-metadata-in-next-js */}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
