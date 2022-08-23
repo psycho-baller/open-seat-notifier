@@ -10,10 +10,7 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Open Seat Notifier</title>
-        <meta
-          name="description"
-          content="Get Notified when a research study is up for you"
-        />
+        
         <link rel="icon" href="https://ucalgary.sona-systems.com/favicon.ico" />
       </Head>
       <Navbar />

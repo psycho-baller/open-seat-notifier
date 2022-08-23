@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import Script from 'next/script'
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,6 +22,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           });
         `}
       </Script>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="Get Notified when a research study is up for you"
+        />
+      </Head>
       <ChakraProvider>
         <Component {...pageProps} />
       </ChakraProvider>
