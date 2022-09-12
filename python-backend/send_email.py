@@ -37,8 +37,8 @@ Location: {data['location']}</h5>
     </p>
     {studies}
     <p>
-    You will be automatically unsubscribed and your credentials will be erased from our database when the course ends. But if you would like to unsubscribe now, <a href="https://open-seat-notifier.vercel.app/">click here
-    <p/>
+    You will be automatically unsubscribed and your credentials will be erased from our database when the course ends. Nevertheless, <a href="https://open-seat-notifier.vercel.app/api/{email_to}">click here
+    </a> if you would like to unsubscribe now </p>
   </body>
 </html>
 """

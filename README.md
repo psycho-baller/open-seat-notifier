@@ -55,6 +55,6 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 # Future plans
 
 - [x] Encrypt passwords
-- [ ] unsubscribe from emails
+- [x] unsubscribe from emails
 - [ ] change password
 - [x] better email

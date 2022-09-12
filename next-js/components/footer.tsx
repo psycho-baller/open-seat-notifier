@@ -26,18 +26,18 @@ export default function Footer() {
           <BsLinkedin />
         </a>
         <a
-          href="mailto:rami.rami@ucalgary.ca"
-          target={"_blank"}
-          rel={"noopener noreferrer"}
-        >
-          <HiOutlineMail />
-        </a>
-        <a
           href="https://rami-maalouf.vercel.app/"
           target={"_blank"}
           rel={"noopener noreferrer"}
         >
           <BiHomeAlt />
+        </a>
+        <a
+          href="mailto:rami.rami@ucalgary.ca"
+          target={"_blank"}
+          rel={"noopener noreferrer"}
+        >
+          <HiOutlineMail />
         </a>
         <a
           href="https://www.youtube.com/channel/UCf9CoIzXxFcwlwaNuN5_1BQ"
