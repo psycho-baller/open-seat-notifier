@@ -59,6 +59,8 @@ ALTER TABLE IF EXISTS public.main
             username = result[2]
             password = result[3]
             password = decrypt(password)
+            if email == "ramim66809@gmail.com" or email == "Abitibebu123@gmail.com" or username == "annni13":
+                continue
             # print( email,notified,username,password)
             
             links = get_links(username, password)
@@ -68,7 +70,7 @@ ALTER TABLE IF EXISTS public.main
             # add links to notified list
             for link in links:
                 if link not in notified:
-                    # Make a new hasMap for the new link
+                    # Make a new hashMap for the new link
                     data = {}
                     data["link"] = link
                     title, description, credits_, duration, location = get_details(link)
