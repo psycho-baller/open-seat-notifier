@@ -15,7 +15,7 @@ Options.add_argument("--headless")
 with warnings.catch_warnings():
     warnings.simplefilter('ignore')
     driver = webdriver.Firefox(
-        executable_path=GeckoDriverManager().install())
+        executable_path=GeckoDriverManager().install(), options=Options)
 # remove the options argument if u wanna see the browser open and perform the automated process
 # %%
 
