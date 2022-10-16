@@ -9,15 +9,12 @@ from selenium import webdriver
 import warnings
 from bs4 import BeautifulSoup as bs
 
-from queries import delete_user, get_email
-
-
 Options = Options()
 Options.add_argument("--headless")
 with warnings.catch_warnings():
     warnings.simplefilter('ignore')
     driver = webdriver.Firefox(
-        executable_path=GeckoDriverManager().install())#, options=Options)
+        executable_path=GeckoDriverManager().install(), options=Options)
 # remove the options argument if u wanna see the browser open and perform the automated process
 # %%
 
@@ -38,10 +35,7 @@ def get_links(username, password):
         WebDriverWait(driver, 10).until(EC.presence_of_element_located(
         (By.ID, "lnkStudySignupLink"))).click()
     except:
-        email = get_email(user_ID)
-        delete_user(user_ID)
-        send_unsub_email(email)
-        return []
+        return "delete"
     # %%
     html = driver.page_source
     home_page = 'https://ucalgary.sona-systems.com/'

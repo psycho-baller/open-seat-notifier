@@ -57,7 +57,7 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 - [x] better email
 - [x] Encrypt passwords
 - [x] unsubscribe from emails
-- [ ] change password
-- [ ] check if the user is already in the database (no dublicates in the database)
-- [ ] add a loading icon on button when submitting
+- [x] change password
+- [x] check if the user is already in the database (no dublicates in the database)
+- [x] add a loading icon on button when submitting
 - [ ] make sure the credentials are valid, if not, they recieve an email abt it

@@ -31,7 +31,7 @@ const ContactForm = () => {
     },
   });
   async function _onSubmit(data: any) {
-    setLoading(true);
+    // setLoading(true);
     const email = data.email;
     const username = data.username;
     const password = encrypt(data.password);
@@ -77,12 +77,12 @@ const ContactForm = () => {
         isClosable: true,
       });
     }
-    setLoading(false);
+    // setLoading(false);
   }
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
 
   return (
@@ -157,7 +157,7 @@ const ContactForm = () => {
             >
               Notify Me
             </motion.p>
-            {!{ loading } && <Spinner />}
+            {/* {!{ loading } && <Spinner />} */}
           </Button>
         </div>
       </form>
