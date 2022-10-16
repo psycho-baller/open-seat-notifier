@@ -17,7 +17,6 @@ import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { encrypt } from "../utils/encrypt";
 
-
 const ContactForm = () => {
   const toast = useToast();
   const formik = useFormik({
@@ -31,11 +30,11 @@ const ContactForm = () => {
     },
   });
   async function _onSubmit(data: any) {
-    // setLoading(true);
+    setLoading(true);
     const email = data.email;
     const username = data.username;
     const password = encrypt(data.password);
-    console.log(email, username, password);
+    // console.log(email, username, password);
 
     const res = (await fetch(
       "https://open-seat-notifier.vercel.app/api/addUser",
@@ -43,12 +42,13 @@ const ContactForm = () => {
         method: "POST",
         body: JSON.stringify({ email, username, password }),
       }
-    )) as Response;
+    ).then(() => {
+      setLoading(false);
+    })) as Response;
     if (res.status === 201) {
       toast({
         title: "User added successfully",
-        description:
-          "You will be receiving a confirmation email shortly!",
+        description: "You will be receiving a confirmation email shortly!",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -64,10 +64,10 @@ const ContactForm = () => {
           "KLIkJe8rPjR9Cj6Sj"
         )
         .then(
-          (result: { text: any; }) => {
+          (result: { text: any }) => {
             console.log(result.text);
           },
-          (error: { text: any; }) => {
+          (error: { text: any }) => {
             console.log(error.text);
           }
         );
@@ -80,13 +80,11 @@ const ContactForm = () => {
         isClosable: true,
       });
     }
-    // setLoading(false);
   }
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  // const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   return (
     <Container p={3}>
@@ -160,7 +158,7 @@ const ContactForm = () => {
             >
               Notify Me
             </motion.p>
-            {/* {!{ loading } && <Spinner />} */}
+            {!{ loading } && <Spinner />}
           </Button>
         </div>
       </form>

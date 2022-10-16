@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // notified_studies: [],
   };
   try {
-    // checks if user already exists, and if found, edit the user's data
+    // checks if user already exists, and if found, edit the user's data and give a different response status
     const result = await prisma.main.upsert({
       where: {
         email: user.email as string,
@@ -38,7 +38,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         password: user.password,
       },
     });
-    
+    // to distinguish between update and create: https://github.com/prisma/prisma/discussions/3432
+    // if (result) {
+    //   res.status(200).json({ message: `User added successfully` });
+    // } else {
+    //   res.status(404).json({ message: `${user.email} not found` });
+    // }
+
     // const addUser = await prisma.main.create({ data: user });
     console.log(result);
     res.status(201).json({
