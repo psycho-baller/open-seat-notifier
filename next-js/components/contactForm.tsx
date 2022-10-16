@@ -37,10 +37,13 @@ const ContactForm = () => {
     const password = encrypt(data.password);
     console.log(email, username, password);
 
-    const res = (await fetch("http://localhost:3000//api/addUser", {
-      method: "POST",
-      body: JSON.stringify({ email, username, password }),
-    })) as Response;
+    const res = (await fetch(
+      "https://open-seat-notifier.vercel.app/api/addUser",
+      {
+        method: "POST",
+        body: JSON.stringify({ email, username, password }),
+      }
+    )) as Response;
     if (res.status === 201) {
       toast({
         title: "User added successfully",
