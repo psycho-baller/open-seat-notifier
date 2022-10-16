@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 import { lClickables, rClickables } from "../animations/clickables";
 import { useFormik } from "formik";
 import { useState } from "react";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import { encrypt } from "../utils/encrypt";
 
 
@@ -26,7 +26,7 @@ const ContactForm = () => {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
+    onSubmit: (values: any) => {
       _onSubmit(values);
     },
   });
@@ -64,10 +64,10 @@ const ContactForm = () => {
           "KLIkJe8rPjR9Cj6Sj"
         )
         .then(
-          (result) => {
+          (result: { text: any; }) => {
             console.log(result.text);
           },
-          (error) => {
+          (error: { text: any; }) => {
             console.log(error.text);
           }
         );

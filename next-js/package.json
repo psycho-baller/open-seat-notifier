@@ -11,7 +11,7 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.0.6",
     "@chakra-ui/react": "^2.2.4",
-    "@emailjs/browser": "^3.6.2",
+    "@emailjs/browser": "^3.7.0",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@prisma/client": "^4.1.1",

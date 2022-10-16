@@ -14,7 +14,7 @@ ALTER TABLE IF EXISTS public.main
     OWNER to lzpgnnepunoeer;'''
 
 """ Commands """
-add_to_notified_query = 'UPDATE public.main WHERE email = %s SET notified_studies = array_append(notified_studies, %s);'
+add_to_notified_query = 'UPDATE public.main SET notified_studies = array_append(notified_studies, %s) WHERE email = %s;'
 
 add_user_query = 'INSERT INTO public.main (email, username, password) VALUES (%s, %s, %s);'
 get_all_data_query = '''SELECT * FROM public.main
