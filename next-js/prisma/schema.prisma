@@ -8,7 +8,7 @@ datasource db {
 }
 
 model main {
-  email            String   @db.VarChar
+  email            String   @unique @db.VarChar
   notified_studies String[] @default([]) @db.VarChar
   username         String   @db.VarChar
   password         String   @db.VarChar

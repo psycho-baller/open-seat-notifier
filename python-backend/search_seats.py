@@ -8,14 +8,16 @@ from selenium import webdriver
 
 import warnings
 from bs4 import BeautifulSoup as bs
-# import webbrowser
+
+from queries import delete_user, get_email
+
 
 Options = Options()
 Options.add_argument("--headless")
 with warnings.catch_warnings():
     warnings.simplefilter('ignore')
     driver = webdriver.Firefox(
-        executable_path=GeckoDriverManager().install(), options=Options)
+        executable_path=GeckoDriverManager().install())#, options=Options)
 # remove the options argument if u wanna see the browser open and perform the automated process
 # %%
 
@@ -32,10 +34,14 @@ def get_links(username, password):
     element = driver.find_element(
         By.ID, "ctl00_ContentPlaceHolder1_default_auth_button")
     driver.execute_script("arguments[0].click();", element)
-
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located(
+    try:
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located(
         (By.ID, "lnkStudySignupLink"))).click()
-
+    except:
+        email = get_email(user_ID)
+        delete_user(user_ID)
+        send_unsub_email(email)
+        return []
     # %%
     html = driver.page_source
     home_page = 'https://ucalgary.sona-systems.com/'
@@ -58,7 +64,7 @@ def get_details(url):
     credits_ = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblCreditTotal'}).get_text()
     duration = soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lblDuration'}).get_text()
     location = soup.find('div', {'class': 'col-md-11'}).find("strong").get_text().strip("\n\t")
-    print(title, description, credits_, duration, location)
+    print(title)
     return title, description, credits_, duration, location
 
 def close_driver():

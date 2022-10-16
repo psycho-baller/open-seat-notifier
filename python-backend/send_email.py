@@ -2,10 +2,15 @@ import smtplib
 import ssl
 from email.message import EmailMessage
 
-def send(email_to, links):
+# Define email sender and receiver
+email_sender = 'open.seat.finder@gmail.com'
+email_password = 'dwlrbisufxnnneju'
+
+
+def send_sub_email(email_to, links):
     studies = ""
     for data in links:
-        studies+=f"""
+        studies += f"""
 <h3>{data['title']}</h3>
 <h5>{data['description']}
 <h5>Worth: {data['credits']}
@@ -16,11 +21,6 @@ Location: {data['location']}</h5>
 <a href="{data['link']}"><button>Check it out</button></a>
 <hr>
 """
-
-
-    # Define email sender and receiver
-    email_sender = 'open.seat.finder@gmail.com'
-    email_password = 'dwlrbisufxnnneju'
 
     email_receiver = email_to
 
@@ -42,7 +42,28 @@ Location: {data['location']}</h5>
   </body>
 </html>
 """
+    send(email_receiver, subject, body)
 
+
+def send_unsub_email(email_to):
+    email_receiver = email_to
+    subject = 'Incorrect Credentials for Sona Research Participation'
+    body = f"""
+<html>
+  <body>
+    <p>
+    The credentials you provided for the Sona Research Participation website are incorrect. Your data has been erased from our database. If you would like to subscribe again, please visit <a href="https://open-seat-notifier.vercel.app/">Open Seat Notifier</a> and enter your correct credentials.
+    </p>
+    <p>
+    We apologize for the inconvenience.
+    </p>
+  </body>
+</html>
+    """
+    send(email_receiver, subject, body)
+
+
+def send(email_receiver, subject, body):
     em = EmailMessage()
     em['From'] = email_sender
     em['To'] = email_receiver

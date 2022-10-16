@@ -1,6 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { Prisma } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next/types'
 import prisma from "../../lib/prisma";
+
+interface where{
+  email: string;
+}
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
@@ -18,11 +23,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // notified_studies: [],
   };
   try {
-    const addUser = await prisma.main.create({ data: user });
-    console.log(addUser);
+    // checks if user already exists, and if found, edit the user's data
+    const result = await prisma.main.upsert({
+      where: {
+        email: user.email as string,
+      } as Prisma.mainWhereUniqueInput,
+      update: {
+        username: user.username,
+        password: user.password,
+      },
+      create: {
+        email: user.email,
+        username: user.username,
+        password: user.password,
+      },
+    });
+    
+    // const addUser = await prisma.main.create({ data: user });
+    console.log(result);
     res.status(201).json({
       message: "User created successfully",
-      data: addUser,
+      data: result,
     });
   } catch (error: any) {
     console.log(error);

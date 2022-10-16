@@ -7,6 +7,7 @@ import {
   Button,
   InputRightElement,
   InputGroup,
+  Spinner,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
@@ -30,18 +31,16 @@ const ContactForm = () => {
     },
   });
   async function _onSubmit(data: any) {
+    setLoading(true);
     const email = data.email;
     const username = data.username;
     const password = encrypt(data.password);
     console.log(email, username, password);
 
-    const res = (await fetch(
-      "https://open-seat-notifier.vercel.app/api/addUser",
-      {
-        method: "POST",
-        body: JSON.stringify({ email, username, password }),
-      }
-    )) as Response;
+    const res = (await fetch("http://localhost:3000//api/addUser", {
+      method: "POST",
+      body: JSON.stringify({ email, username, password }),
+    })) as Response;
     if (res.status === 201) {
       toast({
         title: "User added successfully",
@@ -78,10 +77,13 @@ const ContactForm = () => {
         isClosable: true,
       });
     }
+    setLoading(false);
   }
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const [loading, setLoading] = useState(false);
+
 
   return (
     <Container p={3}>
@@ -155,6 +157,7 @@ const ContactForm = () => {
             >
               Notify Me
             </motion.p>
+            {!{ loading } && <Spinner />}
           </Button>
         </div>
       </form>
