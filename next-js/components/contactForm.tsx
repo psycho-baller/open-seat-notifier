@@ -8,6 +8,7 @@ import {
   InputRightElement,
   InputGroup,
   Spinner,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
@@ -94,7 +95,7 @@ const ContactForm = () => {
 
       <form onSubmit={formik.handleSubmit}>
         <FormControl isRequired py={2}>
-          <FormLabel htmlFor="username">User ID</FormLabel>
+          <FormLabel htmlFor="username">Username</FormLabel>
           <Input
             placeholder="rick.astley"
             focusBorderColor="green.300"
@@ -105,6 +106,18 @@ const ContactForm = () => {
             onChange={formik.handleChange}
             value={formik.values.username}
           />
+          <FormHelperText>
+            the User ID you use to login to the
+            <a
+              className={`text-lime-300 hover:text-orange-300`}
+              href="https://ucalgary.sona-systems.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {" "}
+              Research Participation System
+            </a>
+          </FormHelperText>
         </FormControl>
         <FormControl isRequired py={2}>
           <FormLabel htmlFor="password">Password</FormLabel>
@@ -119,6 +132,7 @@ const ContactForm = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
+
             <InputRightElement width="4.5rem">
               <Button h="1.75rem" size="sm" onClick={handleClick}>
                 {show ? "Hide" : "Show"}
@@ -126,6 +140,7 @@ const ContactForm = () => {
             </InputRightElement>
           </InputGroup>
         </FormControl>
+
         <FormControl isRequired py={2}>
           <FormLabel htmlFor="email">Email</FormLabel>
           <Input
@@ -138,6 +153,7 @@ const ContactForm = () => {
             onChange={formik.handleChange}
             value={formik.values.email}
           />
+          <FormHelperText>the email you want to get notified at</FormHelperText>
         </FormControl>
         <div className="flex justify-center">
           <Button
