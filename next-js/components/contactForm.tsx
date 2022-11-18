@@ -153,7 +153,7 @@ const ContactForm = () => {
             onChange={formik.handleChange}
             value={formik.values.email}
           />
-          <FormHelperText>the email you want to get notified at</FormHelperText>
+          <FormHelperText>the email you want to get notified in</FormHelperText>
         </FormControl>
         <div className="flex justify-center">
           <Button
