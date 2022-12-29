@@ -1,6 +1,7 @@
 import base64
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
+import os
 
 # https://medium.com/@sachadehe/encrypt-decrypt-data-between-python-3-and-javascript-true-aes-algorithm-7c4e2fa3a9ff
 def decrypt(password):
@@ -9,7 +10,7 @@ def decrypt(password):
     #CBC with Fix IV
 
     # data = password
-    key = 'EIXLSNTENGISSWZS' #16 char for AES128
+    key = os.getenv('DECRYPT_KEY') #16 char for AES128
 
     #FIX IV
     iv =  'UWPMBFUOMDOADSJX'.encode('utf-8') #16 char for AES128
