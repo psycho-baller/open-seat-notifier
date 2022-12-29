@@ -54,10 +54,11 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 
 # Future plans
 
-- [x] better email
-- [x] Encrypt passwords
-- [x] unsubscribe from emails
-- [x] change password
-- [x] check if the user is already in the database (no dublicates in the database)
-- [x] add a loading icon on button when submitting
+- [X] better email
+- [X] Encrypt passwords
+- [X] unsubscribe from emails
+- [X] change password
+- [X] check if the user is already in the database (no dublicates in the database)
+- [X] add a loading icon on button when submitting
 - [ ] make sure the credentials are valid, if not, they recieve an email abt it
+- [ ] change database host
