@@ -61,4 +61,4 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 - [X] check if the user is already in the database (no dublicates in the database)
 - [X] add a loading icon on button when submitting
 - [X] change database host
-- [ ] make sure the credentials are valid, if not, they recieve an email abt it
+- [X] make sure the credentials are valid, if not, they recieve an email abt it
