@@ -4,13 +4,28 @@ import { HiOutlineMail } from "react-icons/hi";
 import { BiHomeAlt } from "react-icons/bi";
 import { AiFillYoutube } from "react-icons/ai";
 import { HStack } from "@chakra-ui/react";
+import localFont from "@next/font/local";
 
+// Font files can be colocated inside of `pages`
+const font = localFont({ src: "./fonts/CuteFont-Regular.ttf" });
 // Different ways to add a footer
 // https://stackoverflow.com/questions/643879/css-to-make-html-page-footer-stay-at-bottom-of-the-page-with-a-minimum-height-b
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <HStack spacing={20}>
+    <>
+      <p className={`text-right pb-2 mr-4 font-['cute'] ${font.className}`}>
+        Made with ❤️ by{" "}
+        <a
+          href="https://rami-maalouf.vercel.app/"
+          target={"_blank"}
+          rel={"noopener noreferrer"}
+          className={`text-lime-300 hover:text-orange-300`}
+        >
+          Rami
+        </a>
+      </p>
+
+      <footer className={styles.footer}>
         <a
           href="https://github.com/psycho-baller/open-seat-notifier"
           target={"_blank"}
@@ -46,7 +61,7 @@ export default function Footer() {
         >
           <AiFillYoutube />
         </a>
-      </HStack>
-    </footer>
+      </footer>
+    </>
   );
 }
