@@ -8,8 +8,8 @@ import { AiFillYoutube } from "react-icons/ai";
 // https://stackoverflow.com/questions/643879/css-to-make-html-page-footer-stay-at-bottom-of-the-page-with-a-minimum-height-b
 export default function Footer() {
   return (
-    <>
-      <p className='text-right pb-2 mr-4'>
+    <section className="flex fixed bottom-0 flex-col w-full">
+      <p className="text-right pb-4 mr-8">
         Made with ❤️ by{" "}
         <a
           href="https://rami-maalouf.vercel.app/"
@@ -58,6 +58,6 @@ export default function Footer() {
           <AiFillYoutube />
         </a>
       </footer>
-    </>
+    </section>
   );
 }

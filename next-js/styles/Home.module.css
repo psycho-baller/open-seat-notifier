@@ -4,7 +4,7 @@
   /* display: grid; 
   grid-template-rows: auto 1fr auto; */
    /* grid-template-columns: 1fr; */
-  height: 92vh;
+  min-height: 100vh;
   margin: 0;
 }
 
@@ -24,7 +24,6 @@
   margin: 0;
   padding: 0;
   margin-bottom: 1rem;
-  /* height: 3vh; */
 }
 
 .footer > a {
