@@ -9,7 +9,7 @@ import { AiFillYoutube } from "react-icons/ai";
 export default function Footer() {
   return (
     <section className="flex fixed bottom-0 flex-col w-full">
-      <p className="text-right pb-4 mr-8">
+      <p className="pb-4 text-center ">
         Made with ❤️ by{" "}
         <a
           href="https://rami-maalouf.vercel.app/"
@@ -51,7 +51,7 @@ export default function Footer() {
           <HiOutlineMail />
         </a>
         <a
-          href="https://www.youtube.com/channel/UCf9CoIzXxFcwlwaNuN5_1BQ"
+          href="https://www.youtube.com/@psycho-coder"
           target={"_blank"}
           rel={"noopener noreferrer"}
         >
