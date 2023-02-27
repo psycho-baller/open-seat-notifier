@@ -1,6 +1,6 @@
 .vscode
 
-open-seat-venv
+.venv
 __pycache__
 env_var.py
 geckodriver.log

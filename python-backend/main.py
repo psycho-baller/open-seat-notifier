@@ -1,18 +1,19 @@
-from send_email import send_sub_email, send_unsub_email
 #!/usr/bin/python
+from send_email import send_sub_email, send_unsub_email
 from decrypt import decrypt
 import psycopg2
 from config import config
 # To activate the venv, run the following command in bash:
-# source open-seat-venv/Scripts/activate
+# source .venv/Scripts/activate
 cur = None
 conn = None
+
 
 def main(conn, cur):
     from queries import get_all_data, close_connection, add_to_notified, delete_user
     from search_seats import get_links, get_details, close_driver
 
-    results  = get_all_data(cur)
+    results = get_all_data(cur)
     for result in results:
         email = result[0]
         notified = result[1] if result[1] else []
@@ -20,13 +21,12 @@ def main(conn, cur):
         password = result[3]
         password = decrypt(password)
 
-        
         links = get_links(username, password)
         if "delete" in links:
             delete_user(cur, username)
             send_unsub_email(email)
             continue
-        
+
         links_to_notify = []
 
         # add links to notified list
@@ -35,7 +35,8 @@ def main(conn, cur):
                 # Make a new hashMap for the new link
                 data = {}
                 data["link"] = link
-                title, description, credits_, duration, location = get_details(link)
+                title, description, credits_, duration, location = get_details(
+                    link)
                 data["title"] = title
                 data["description"] = description
                 data["credits"] = credits_
@@ -84,8 +85,10 @@ def connect():
 # def get_cur():
 #     return cur
 
+
 def get_conn():
     return conn
+
 
 if __name__ == "__main__":
     # Connect to the Postgres database

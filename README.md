@@ -62,3 +62,9 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 - [X] add a loading icon on button when submitting
 - [X] change database host
 - [X] make sure the credentials are valid, if not, they recieve an email abt it
+- [X] run the script that checks for new studies on the server instead of in my local machine
+- [ ] enroll with a click of a button, at least for the online studies
+- [ ] be able to have preferences (personalized reminders or general reminders)
+  - [ ] easily be able to change your preferences
+  - [ ] grow this to be a full-fledged website where you can have a profile and all that
+- [ ] better UI
