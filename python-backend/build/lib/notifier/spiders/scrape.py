@@ -33,7 +33,7 @@ class ScrapeSpider(Spider):
     
     # Fetch data from the database using a session
     def start_requests(self):
-        db_url = self.settings.get('DB_URL')
+        db_url = self.settings.get('DB_URL', 'postgresql://psycho-baller:JEVl1K9XgZqY@ep-nameless-thunder-103753.cloud.neon.tech/neondb')
         print("dburl",db_url)
 
         # Create a SQLAlchemy engine object to connect to the database
@@ -43,14 +43,12 @@ class ScrapeSpider(Spider):
         session = Session()
         users = session.query(Table).all()
         session.close()
-        self.username = users[2].username
-        self.password = users[2].password
         
         # for user in users:
-        yield Request(url=self.start_urls[0], callback=self.parse)
+        yield Request(url=self.start_urls[0], callback=self.parse, cb_kwargs=dict(username=users[0].username, password=users[0].password))
     
 
-    def parse(self, response):
+    def parse(self, response, username, password):
         # Get the CSRF token from the login form
         csrf_token = response.css(
             'input[name="csrf_token"]::attr(value)').get()
@@ -59,8 +57,8 @@ class ScrapeSpider(Spider):
         yield FormRequest.from_response(response,
                                         formdata={
                                             'csrf_token': csrf_token,
-                                            'ctl00$ContentPlaceHolder1$userid': self.username,
-                                            'ctl00$ContentPlaceHolder1$pw': decrypt(self.password, self.settings.get('DECRYPT_KEY')),
+                                            'ctl00$ContentPlaceHolder1$userid': username,
+                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY', 'EIXLSNTENGISSWZS')),
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
                                         callback=self.after_login

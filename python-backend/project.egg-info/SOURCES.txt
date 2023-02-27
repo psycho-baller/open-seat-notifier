@@ -1,3 +1,4 @@
+decrypt.py
 setup.py
 notifier/__init__.py
 notifier/items.py
