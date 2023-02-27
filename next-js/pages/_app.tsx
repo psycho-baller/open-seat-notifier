@@ -1,13 +1,13 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { ChakraProvider } from '@chakra-ui/react'
-import Script from 'next/script'
-import Head from 'next/head';
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { ChakraProvider } from "@chakra-ui/react";
+// import Script from "next/script";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Script
+      {/* <Script
         id="google-analytics-1"
         strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID}`}
@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           page_path: window.location.pathname,
           });
         `}
-      </Script>
+      </Script> */}
       <Head>
         {/* SEO:
         https://www.youtube.com/watch?v=imsyg1wRa_Y
@@ -42,4 +42,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp
+export default MyApp;

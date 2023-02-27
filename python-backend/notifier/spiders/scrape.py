@@ -45,21 +45,20 @@ class ScrapeSpider(Spider):
         session.close()
         
         # for user in users:
-        yield Request(url=self.start_urls[0], callback=self.parse, cb_kwargs=dict(username=users[2].username, password=users[2].password))
+        yield Request(url=self.start_urls[0], callback=self.parse, cb_kwargs=dict(username=users[0].username, password=users[0].password))
     
 
     def parse(self, response, username, password):
         # Get the CSRF token from the login form
         csrf_token = response.css(
             'input[name="csrf_token"]::attr(value)').get()
-        pswrd = decrypt(password, self.settings.get('DECRYPT_KEY'))
 
         # Login to the website
         yield FormRequest.from_response(response,
                                         formdata={
                                             'csrf_token': csrf_token,
                                             'ctl00$ContentPlaceHolder1$userid': username,
-                                            'ctl00$ContentPlaceHolder1$pw': pswrd,
+                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY')),
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
                                         callback=self.after_login
