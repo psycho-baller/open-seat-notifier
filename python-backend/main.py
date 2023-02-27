@@ -1,5 +1,4 @@
-#!/usr/bin/python
-from send_email import send_sub_email, send_unsub_email
+from notifier.send_email import send_sub_email, send_unsub_email
 from decrypt import decrypt
 import psycopg2
 from config import config
@@ -10,8 +9,8 @@ conn = None
 
 
 def main(conn, cur):
-    from queries import get_all_data, close_connection, add_to_notified, delete_user
-    from search_seats import get_links, get_details, close_driver
+    from notifier.queries import get_all_data, close_connection, add_to_notified, delete_user
+    from notifier.search_seats import get_links, get_details, close_driver
 
     results = get_all_data(cur)
     for result in results:

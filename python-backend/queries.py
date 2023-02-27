@@ -1,4 +1,4 @@
-from main import get_conn
+from notifier.main import get_conn
 
 """ Create Table """
 create_table = '''

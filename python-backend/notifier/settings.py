@@ -96,4 +96,5 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # env variables
-DB=os.environ.get("DB")
+DB_URL = os.environ.get("DB_URL")
+DECRYPT_KEY = os.environ.get('DECRYPT_KEY')

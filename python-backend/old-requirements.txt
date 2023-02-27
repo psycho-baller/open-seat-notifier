@@ -1,6 +1,0 @@
-pip
-setuptools
-selenium
-webdriver-manager
-bs4
-pycryptodome

@@ -1,43 +1,65 @@
-from scrapy import FormRequest, Spider
+from scrapy import FormRequest, Spider, Request
 from scrapy.utils.response import open_in_browser
-
-import scrapy
+from scrapy.utils.project import get_project_settings
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from decrypt import decrypt
 
 # Define the database connection URL
-db_url = ""
-
-# Create a SQLAlchemy engine object to connect to the database
-engine = create_engine(db_url)
-
-# Create a session factory to interact with the database
-Session = sessionmaker(bind=engine)
+settings = get_project_settings()
+print(settings.get('DB_URL'))
 
 # Define a SQLAlchemy model to represent the table
 Base = declarative_base()
 
-
 class Table(Base):
-    pass
+    __tablename__ = 'main'
+    
+    email = Column(String, primary_key=True)
+    id = Column(Integer)
+    # this is a string because it's a list of strings
+    notified_studies = Column(String)
+    username = Column(String)
+    password = Column(String)
+    
+    
+    
 
 
 class ScrapeSpider(Spider):
     name = 'scrape'
     start_urls = ['https://ucalgary.sona-systems.com/']
+    
+    # Fetch data from the database using a session
+    def start_requests(self):
+        db_url = self.settings.get('DB_URL')
+        print("dburl",db_url)
 
-    def parse(self, response):
+        # Create a SQLAlchemy engine object to connect to the database
+        engine = create_engine(db_url)
+        # Create a session factory to interact with the database
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        users = session.query(Table).all()
+        session.close()
+        
+        # for user in users:
+        yield Request(url=self.start_urls[0], callback=self.parse, cb_kwargs=dict(username=users[2].username, password=users[2].password))
+    
+
+    def parse(self, response, username, password):
         # Get the CSRF token from the login form
         csrf_token = response.css(
             'input[name="csrf_token"]::attr(value)').get()
+        pswrd = decrypt(password, self.settings.get('DECRYPT_KEY'))
 
         # Login to the website
         yield FormRequest.from_response(response,
                                         formdata={
                                             'csrf_token': csrf_token,
-                                            'ctl00$ContentPlaceHolder1$userid': 'username',
-                                            'ctl00$ContentPlaceHolder1$pw': 'password',
+                                            'ctl00$ContentPlaceHolder1$userid': username,
+                                            'ctl00$ContentPlaceHolder1$pw': pswrd,
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
                                         callback=self.after_login
