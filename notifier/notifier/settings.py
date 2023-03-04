@@ -7,6 +7,7 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+
 import os
 
 
@@ -97,4 +98,4 @@ FEED_EXPORT_ENCODING = "utf-8"
 
 # env variables
 DB_URL = os.environ.get("DB_URL")
-DECRYPT_KEY = os.environ.get('DECRYPT_KEY')
+DECRYPT_KEY = os.environ.get("DECRYPT_KEY")
