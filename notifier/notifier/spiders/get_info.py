@@ -31,7 +31,6 @@ def decrypt(password, key):
     iv =  'UWPMBFUOMDOADSJX'.encode('utf-8') #16 char for AES128
 
     def decrypt(enc,key,iv):
-            print(enc, key, iv)
             enc = base64.b64decode(enc)
             cipher = AES.new(key.encode('utf-8'), AES.MODE_CBC, iv)
             return unpad(cipher.decrypt(enc), 16)
@@ -52,7 +51,6 @@ class ScrapeSpider(Spider):
     # Fetch data from the database using a session
     def start_requests(self):
         db_url = self.settings.get('DB_URL')
-        print("dburl",db_url)
         # initialize the database connection
         # Create a SQLAlchemy engine object to connect to the database
         engine = create_engine(db_url)
@@ -61,14 +59,13 @@ class ScrapeSpider(Spider):
         session = Session()
         users = session.query(Table).all()
         session.close()
-        print(users[0].username, users[0].password)
         
         # for user in users:
         for user in users:
-            yield Request(self.urls[0], callback=self.parse, meta={'username': user.username, 'password': user.password})
+            yield Request(self.urls[0], callback=self.parse, cb_kwargs=dict(username=user.username, password=user.password))
     
 
-    def parse(self, response, username=None, password=None):
+    def parse(self, response, username, password):
         # Get the CSRF token from the login form
         csrf_token = response.css(
             'input[name="csrf_token"]::attr(value)').get()
@@ -98,15 +95,14 @@ class ScrapeSpider(Spider):
         # open_in_browser(response)
         links = set()
         # a tag is located in td tag
-        scraped_links = response.css('td a::attr(href)')
+        scraped_links = response.css('td a::attr(href)').getall()
         for link in scraped_links:
             # get the id of the study from the link
             id = link.split('=')[1]
             links.add(
                 f'https://ucalgary.sona-systems.com/exp_info_participant.aspx?experiment_id={id}')
         # run another function to get the details of each study
-        return links
-        # yield from response.follow_all(links, callback=self.get_details)
+        yield from response.follow_all(links, callback=self.get_details)
 
     def get_details(self, response):
         data = {}
@@ -125,8 +121,10 @@ class ScrapeSpider(Spider):
             value = str(tr.css('td strong::text').get()).strip(
             ) if key == 'Study Type' else str(tr.css('td span::text').get()).strip()
             data[key] = value
-        return data
+        self.logger.info("Collected data and now stopping")
+        yield data
 
 if __name__ == '__main__':
     spider = ScrapeSpider()
+    spider.logger.log("Starting Spider")
     spider.start_requests()
