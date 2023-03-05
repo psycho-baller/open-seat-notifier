@@ -100,8 +100,8 @@ class ScrapeSpider(Spider):
             # If the login was successful, redirect to the page that lists all the studies
             yield response.follow('https://ucalgary.sona-systems.com/all_exp_participant.aspx', callback=self.get_links)
         else:
-            # If the login was unsuccessful, print an error message
-            self.logger.error("Login failed")
+            # If the login was unsuccessful, delete the user from the database and send an email to the user
+            yield {'error': 'Login failed', 'email': self.data[-1]['email']}
 
     def get_links(self, response):
         # open_in_browser(response)

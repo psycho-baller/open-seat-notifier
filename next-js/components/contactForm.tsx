@@ -37,10 +37,9 @@ const ContactForm = () => {
       {
         method: "POST",
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           spider: "login",
           project: "639960",
           username: username,
@@ -57,17 +56,17 @@ const ContactForm = () => {
     setLoading(true);
 
     // Check validity of credentials
-    const valid = await checkCredentials(data.username, data.password);
-    if (!valid) {
-      toast({
-        title: "Error!",
-        description: "Invalid credentials, please try again.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
+    // const valid = await checkCredentials(data.username, data.password);
+    // if (!valid) {
+    //   toast({
+    //     title: "Error!",
+    //     description: "Invalid credentials, please try again.",
+    //     status: "error",
+    //     duration: 3000,
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
 
     const email = data.email;
     const username = data.username;
