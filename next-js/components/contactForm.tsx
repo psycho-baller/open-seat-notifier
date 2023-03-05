@@ -30,24 +30,62 @@ const ContactForm = () => {
       _onSubmit(values);
     },
   });
+
+  async function checkCredentials(username: string, password: string) {
+    const res = (await fetch("https://app.zyte.com/api/v2/crawljob/run/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ZYTE_API_KEY}`,
+      },
+      body: JSON.stringify({
+        spider_name: "login",
+        project_id: "639960",
+        spider_arguments: {
+          username: username,
+          password: password,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })) as unknown as Response;
+    if (res.status === 201) {
+      return res.json();
+    } else {
+      return false;
+    }
+  }
   async function _onSubmit(data: any) {
     setLoading(true);
+
+    // Check validity of credentials
+    const valid = await checkCredentials(username, password);
+    if (!valid) {
+      toast({
+        title: "Error!",
+        description: "Invalid credentials, please try again.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
     const email = data.email;
     const username = data.username;
     const password = encrypt(data.password);
-    // console.log(email, username, password);
-
     const res = (await fetch(
       "https://open-seat-notifier.vercel.app/api/addUser",
       {
         method: "POST",
         body: JSON.stringify({ email, username, password }),
       }
-    )
-    // .then(() => {
-    //   setLoading(false);
-    // })
-    ) as Response;
+    )) as Response; // }) //   setLoading(false); // .then(() => {
     if (res.status === 201) {
       toast({
         title: "User added successfully",
