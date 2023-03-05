@@ -137,6 +137,7 @@ class NotifierPipeline:
         # query = text("DELETE FROM main WHERE email = :email")
         row_to_delete = self.session.query('main').filter_by(email=email_receiver).first()
         self.session.delete(row_to_delete)
+        self.session.commit()
         
         self.send_email(email_receiver, subject, body)
         
