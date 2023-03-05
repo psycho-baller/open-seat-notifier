@@ -21,6 +21,7 @@ class Table(Base):
     notified_studies = Column(String)
     username = Column(String)
     password = Column(String)
+    
 
 # https://medium.com/@sachadehe/encrypt-decrypt-data-between-python-3-and-javascript-true-aes-algorithm-7c4e2fa3a9ff
 def decrypt(password, key):
@@ -47,10 +48,13 @@ class ScrapeSpider(Spider):
     name = 'get_info'
     allowed_domains = ['ucalgary.sona-systems.com']
     urls = ['https://ucalgary.sona-systems.com/']
+    data = []
+    already_signed_up = 'You have already signed up for this study (and received credit or have a pending credit), so you may not sign up for it again.'
+    prohibited = 'Sign-Up prohibited because of Sign-Up Restrictions. There are study pre-requisite or disqualifier requirements which you do not meet.'
     
     # Fetch data from the database using a session
     def start_requests(self):
-        db_url = self.settings.get('DB_URL')
+        db_url = self.settings.get('DB_URL', 'postgresql://psycho-baller:JEVl1K9XgZqY@ep-nameless-thunder-103753.cloud.neon.tech/neondb')
         # initialize the database connection
         # Create a SQLAlchemy engine object to connect to the database
         engine = create_engine(db_url)
@@ -58,10 +62,18 @@ class ScrapeSpider(Spider):
         Session = sessionmaker(bind=engine)
         session = Session()
         users = session.query(Table).all()
-        session.close()
+        # session.close()
+        
         
         # for user in users:
         for user in users:
+            initial_data = {
+                'session': session,
+                'email': user.email,
+                'notified': user.notified_studies,
+                'data': []
+            }
+            self.data.append(initial_data)
             yield Request(self.urls[0], callback=self.parse, cb_kwargs=dict(username=user.username, password=user.password))
     
 
@@ -75,7 +87,7 @@ class ScrapeSpider(Spider):
                                         formdata={
                                             'csrf_token': csrf_token,
                                             'ctl00$ContentPlaceHolder1$userid': username,
-                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY')),
+                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY', 'EIXLSNTENGISSWZS')),
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
                                         callback=self.after_login
@@ -101,12 +113,23 @@ class ScrapeSpider(Spider):
             id = link.split('=')[1]
             links.add(
                 f'https://ucalgary.sona-systems.com/exp_info_participant.aspx?experiment_id={id}')
-        # run another function to get the details of each study
-        yield from response.follow_all(links, callback=self.get_details)
+        num_of_links = len(links)
+        # run another function to add the data to the data[-1] dictionary
+        # for link in links:
+        #     yield response.follow(link, callback=self.get_details)
+            # self.data[-1]['data'].append(res)
+        yield from response.follow_all(links, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links))
+        
 
-    def get_details(self, response):
-        data = {}
-        # open_in_browser(response)
+    def get_details(self, response, num_of_links):
+        exp_id = response.url.split('=')[1]
+        # if the id has already been notified, don't add it to the data
+        if exp_id in self.data[-1]['notified']:
+            return
+        scraped_data = {}
+        # add experiment id to the data
+        scraped_data['id'] = exp_id
+        
         # for each tr tag in tbody tag, get the th text inside a span sometimes and make it the key and
         # the first text inside a span from the first td tag the value
         for tr in response.css('tbody tr'):
@@ -120,9 +143,21 @@ class ScrapeSpider(Spider):
             # # inline if statement
             value = str(tr.css('td strong::text').get()).strip(
             ) if key == 'Study Type' else str(tr.css('td span::text').get()).strip()
-            data[key] = value
-        self.logger.info("Collected data and now stopping")
-        yield data
+            if self.already_signed_up in value or self.prohibited in value:
+                if len(self.data[-1]['data']) == num_of_links:
+                    yield self.data[-1]
+                return # don't add it to the data if the user has already signed up or is prohibited
+            elif value == 'None':
+                key = 'link'
+                value = f'https://ucalgary.sona-systems.com/exp_view_slots.aspx?experiment_id={exp_id}'
+            scraped_data[key] = value
+            
+        self.data[-1]['data'].append(scraped_data)
+        # if it's the last link, return the data
+        if len(self.data[-1]['data']) == num_of_links:
+            yield self.data[-1]
+        
+        
 
 if __name__ == '__main__':
     spider = ScrapeSpider()
