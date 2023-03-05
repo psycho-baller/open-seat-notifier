@@ -12,6 +12,5 @@ export const encrypt = (password: string) => {
     mode: CryptoJS.mode.CBC,
   });
   encrypted = encrypted.toString() as any;
-  console.log("encrypted", encrypted);
   return encrypted;
 };

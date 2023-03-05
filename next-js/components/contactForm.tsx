@@ -32,34 +32,26 @@ const ContactForm = () => {
   });
 
   async function checkCredentials(username: string, password: string) {
-    const res = (await fetch("https://app.zyte.com/api/v2/crawljob/run/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ZYTE_API_KEY}`,
-      },
-      body: JSON.stringify({
-        spider_name: "login",
-        project_id: "639960",
-        spider_arguments: {
+    const res = (await fetch(
+      `https://app.scrapinghub.com/api/run.json?apikey=${process.env.NEXT_PUBLIC_ZYTE_API_KEY}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          spider: "login",
+          project: "639960",
           username: username,
           password: password,
-        },
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })) as unknown as Response;
-    if (res.status === 201) {
-      return res.json();
-    } else {
-      return false;
-    }
+        }),
+      }
+    )) as Response;
+    const json = await res.json();
+    console.log(json);
+    return json.status === "ok";
   }
+
   async function _onSubmit(data: any) {
     setLoading(true);
 
