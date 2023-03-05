@@ -35,7 +35,7 @@ const ContactForm = () => {
     const res = (await fetch(
       `https://app.scrapinghub.com/api/run.json?apikey=${process.env.NEXT_PUBLIC_ZYTE_API_KEY}`,
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
