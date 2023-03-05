@@ -64,7 +64,7 @@ const ContactForm = () => {
     setLoading(true);
 
     // Check validity of credentials
-    const valid = await checkCredentials(username, password);
+    const valid = await checkCredentials(data.username, data.password);
     if (!valid) {
       toast({
         title: "Error!",
