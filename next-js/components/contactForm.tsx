@@ -36,6 +36,10 @@ const ContactForm = () => {
       `https://app.scrapinghub.com/api/run.json?apikey=${process.env.NEXT_PUBLIC_ZYTE_API_KEY}`,
       {
         method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           spider: "login",
           project: "639960",
