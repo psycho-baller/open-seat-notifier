@@ -70,15 +70,17 @@ class NotifierPipeline:
 """
         
     def process_item(self, item, spider):
+        if spider.name == 'login':
+            return item
         data = item['data']
+        if len(data) == 0: # if there are no new studies, don't send an email
+            return item
+        # if there are new studies, send an email
         session = item['session']
         studies = ""
         
         # for each study, make a description list
         for study in data:
-            # if the study has already been notified, skip it
-            if study['id'] in item['notified']:
-                continue
             for index, (key, value) in enumerate(study.items()):
                 if index == 1:
                     studies += f"<h2>{value}</h2><dl>"
@@ -99,8 +101,7 @@ class NotifierPipeline:
         # commit the changes to the database
         session.commit()
         session.close()
-            
-        
+
         email_receiver = item['email']
         len_links = len(data)
         is_or_are = 'is' if len_links == 1 else 'are'

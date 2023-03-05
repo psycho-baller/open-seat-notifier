@@ -51,10 +51,11 @@ class ScrapeSpider(Spider):
     data = []
     already_signed_up = 'You have already signed up for this study (and received credit or have a pending credit), so you may not sign up for it again.'
     prohibited = 'Sign-Up prohibited because of Sign-Up Restrictions. There are study pre-requisite or disqualifier requirements which you do not meet.'
+    num_of_skipped = 0 # number of skipped studies (already signed up or prohibited)
     
     # Fetch data from the database using a session
     def start_requests(self):
-        db_url = self.settings.get('DB_URL', 'postgresql://psycho-baller:JEVl1K9XgZqY@ep-nameless-thunder-103753.cloud.neon.tech/neondb')
+        db_url = self.settings.get('DB_URL')
         # initialize the database connection
         # Create a SQLAlchemy engine object to connect to the database
         engine = create_engine(db_url)
@@ -87,7 +88,7 @@ class ScrapeSpider(Spider):
                                         formdata={
                                             'csrf_token': csrf_token,
                                             'ctl00$ContentPlaceHolder1$userid': username,
-                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY', 'EIXLSNTENGISSWZS')),
+                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY')),
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
                                         callback=self.after_login
@@ -98,7 +99,6 @@ class ScrapeSpider(Spider):
         if "VIEW AVAILABLE STUDIES" in response.text:
             # If the login was successful, redirect to the page that lists all the studies
             yield response.follow('https://ucalgary.sona-systems.com/all_exp_participant.aspx', callback=self.get_links)
-
         else:
             # If the login was unsuccessful, print an error message
             self.logger.error("Login failed")
@@ -122,39 +122,42 @@ class ScrapeSpider(Spider):
         
 
     def get_details(self, response, num_of_links):
+        add_to_data = True
         exp_id = response.url.split('=')[1]
+        
         # if the id has already been notified, don't add it to the data
         if exp_id in self.data[-1]['notified']:
-            return
-        scraped_data = {}
-        # add experiment id to the data
-        scraped_data['id'] = exp_id
-        
-        # for each tr tag in tbody tag, get the th text inside a span sometimes and make it the key and
-        # the first text inside a span from the first td tag the value
-        for tr in response.css('tbody tr'):
-            # sometimes the key is inside a span tag and sometimes it's not
-            key = tr.css('th span::text').get() or tr.css('th::text').get()
-            key = str(key).strip()
-            # if key == 'Study Type':
-            #     value = str(tr.css('td strong::text').get()).strip()
-            # else:
-            #     value = str(tr.css('td span::text').get()).strip()
-            # # inline if statement
-            value = str(tr.css('td strong::text').get()).strip(
-            ) if key == 'Study Type' else str(tr.css('td span::text').get()).strip()
-            if self.already_signed_up in value or self.prohibited in value:
-                if len(self.data[-1]['data']) == num_of_links:
-                    yield self.data[-1]
-                return # don't add it to the data if the user has already signed up or is prohibited
-            elif value == 'None':
-                key = 'link'
-                value = f'https://ucalgary.sona-systems.com/exp_view_slots.aspx?experiment_id={exp_id}'
-            scraped_data[key] = value
+            self.num_of_skipped += 1
+            add_to_data = False
+        else:
+            scraped_data = {}
+            # add experiment id to the data
+            scraped_data['id'] = exp_id
+            # for each tr tag in tbody tag, get the th text inside a span sometimes and make it the key and
+            # the first text inside a span from the first td tag the value
+            for tr in response.css('tbody tr'):
+                # sometimes the key is inside a span tag and sometimes it's not
+                key = tr.css('th span::text').get() or tr.css('th::text').get()
+                key = str(key).strip()
+                # if key == 'Study Type':
+                #     value = str(tr.css('td strong::text').get()).strip()
+                # else:
+                #     value = str(tr.css('td span::text').get()).strip()
+                # # inline if statement
+                value = str(tr.css('td strong::text').get()).strip(
+                ) if key == 'Study Type' else str(tr.css('td span::text').get()).strip()
+                if self.already_signed_up in value or self.prohibited in value:
+                    add_to_data = False
+                    self.num_of_skipped += 1
+                    continue
+                elif value == 'None':
+                    key = 'link'
+                    value = f'https://ucalgary.sona-systems.com/exp_view_slots.aspx?experiment_id={exp_id}'
+                scraped_data[key] = value
+            self.data[-1]['data'].append(scraped_data) if add_to_data else None
             
-        self.data[-1]['data'].append(scraped_data)
         # if it's the last link, return the data
-        if len(self.data[-1]['data']) == num_of_links:
+        if len(self.data[-1]['data']) == (num_of_links - self.num_of_skipped):
             yield self.data[-1]
         
         

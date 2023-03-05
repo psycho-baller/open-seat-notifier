@@ -6,6 +6,7 @@ notifier/pipelines.py
 notifier/settings.py
 notifier/spiders/__init__.py
 notifier/spiders/get_info.py
+notifier/spiders/login.py
 project.egg-info/PKG-INFO
 project.egg-info/SOURCES.txt
 project.egg-info/dependency_links.txt
