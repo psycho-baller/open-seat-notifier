@@ -71,7 +71,6 @@ const ContactForm = () => {
               body: JSON.stringify({ email, username, password }),
             }
           )) as Response;
-          setLoading(false);
           if (res.status === 201) {
             toast({
               title: "User added successfully",
@@ -101,6 +100,7 @@ const ContactForm = () => {
           });
         }
       );
+    setLoading(false);
   }
 
   const [show, setShow] = useState(false);
