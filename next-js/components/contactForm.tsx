@@ -57,49 +57,50 @@ const ContactForm = () => {
     const email = data.email;
     const username = data.username;
     const password = encrypt(data.password);
-    const res = (await fetch(
-      "https://open-seat-notifier.vercel.app/api/addUser",
-      {
-        method: "POST",
-        body: JSON.stringify({ email, username, password }),
-      }
-    )) as Response;
-    setLoading(false);
-    if (res.status === 201) {
-      toast({
-        title: "User added successfully",
-        description: "You will be receiving a confirmation email shortly!",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      const email_to_send_to = {
-        email: email as string,
-      };
-      emailjs
-        .send(
-          "open seat finder",
-          "osf_t",
-          email_to_send_to,
-          "KLIkJe8rPjR9Cj6Sj"
-        )
-        .then(
-          (result: { text: any }) => {
-            console.log(result.text);
-          },
-          (error: { text: any }) => {
-            console.log(error.text);
+    const email_to_send_to = {
+      email: email as string,
+    };
+    emailjs
+      .send("open seat finder", "osf_t", email_to_send_to, "KLIkJe8rPjR9Cj6Sj")
+      .then(
+        async (result: { text: any }) => {
+          const res = (await fetch(
+            "https://open-seat-notifier.vercel.app/api/addUser",
+            {
+              method: "POST",
+              body: JSON.stringify({ email, username, password }),
+            }
+          )) as Response;
+          setLoading(false);
+          if (res.status === 201) {
+            toast({
+              title: "User added successfully",
+              description:
+                "You will be receiving a confirmation email shortly!",
+              status: "success",
+              duration: 4000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: "Error!",
+              description: "Something went wrong, please try again.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
           }
-        );
-    } else {
-      toast({
-        title: "Error!",
-        description: "Something went wrong, please try again.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+        },
+        (error: { text: any }) => {
+          toast({
+            title: "Error!",
+            description: "Invalid email address.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      );
   }
 
   const [show, setShow] = useState(false);
