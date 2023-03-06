@@ -63,7 +63,8 @@ const ContactForm = () => {
         method: "POST",
         body: JSON.stringify({ email, username, password }),
       }
-    ).then(() => setLoading(false))) as Response;
+    )) as Response;
+    setLoading(false);
     if (res.status === 201) {
       toast({
         title: "User added successfully",
