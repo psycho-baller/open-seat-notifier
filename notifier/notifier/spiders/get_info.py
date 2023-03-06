@@ -41,18 +41,11 @@ def decrypt(password, key):
 
 
 class ScrapeSpider(Spider):
-    # Define the database connection URL
-    # settings = get_project_settings()
-    # print(settings.get('DB_URL'))
-
     name = 'get_info'
     allowed_domains = ['ucalgary.sona-systems.com']
     urls = ['https://ucalgary.sona-systems.com/']
-    data = []
     already_signed_up = 'You have already signed up for this study (and received credit or have a pending credit), so you may not sign up for it again.'
     prohibited = 'Sign-Up prohibited because of Sign-Up Restrictions. There are study pre-requisite or disqualifier requirements which you do not meet.'
-    num_of_skipped = 0 # number of skipped studies (already signed up or prohibited)
-    
     # Fetch data from the database using a session
     def start_requests(self):
         db_url = self.settings.get('DB_URL')
@@ -61,24 +54,25 @@ class ScrapeSpider(Spider):
         engine = create_engine(db_url)
         # Create a session factory to interact with the database
         Session = sessionmaker(bind=engine)
-        session = Session()
-        users = session.query(Table).all()
+        self.session = Session()
+        users = self.session.query(Table).all()
         # session.close()
         
         
         # for user in users:
         for user in users:
-            initial_data = {
-                'session': session,
+            self.logger.info('Scraping user: %s', user.email)
+            self.num_of_skipped = 0 # number of skipped studies (already signed up or prohibited)
+            user_data = {
                 'email': user.email,
                 'notified': user.notified_studies,
                 'data': []
             }
-            self.data.append(initial_data)
-            yield Request(self.urls[0], callback=self.parse, cb_kwargs=dict(username=user.username, password=user.password))
-    
+            
+            yield Request(self.urls[0], callback=self.parse, cb_kwargs=dict(username=user.username, password=user.password, cookiejar=user.id, user_data=user_data), meta={'cookiejar': user.id}, dont_filter=True)
 
-    def parse(self, response, username, password):
+    def parse(self, response, username, password, cookiejar, user_data):
+        
         # Get the CSRF token from the login form
         csrf_token = response.css(
             'input[name="csrf_token"]::attr(value)').get()
@@ -91,19 +85,26 @@ class ScrapeSpider(Spider):
                                             'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY')),
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
-                                        callback=self.after_login
+                                        callback=self.after_login,
+                                        cb_kwargs=dict(cookiejar=cookiejar, user_data=user_data),
+                                        meta={'cookiejar': cookiejar},
+                                        dont_filter=True
                                         )
 
-    def after_login(self, response):
+    def after_login(self, response, cookiejar, user_data):
+        open_in_browser(response)
         # Check if the login was successful
         if "VIEW AVAILABLE STUDIES" in response.text:
-            # If the login was successful, redirect to the page that lists all the studies
-            yield response.follow('https://ucalgary.sona-systems.com/all_exp_participant.aspx', callback=self.get_links)
+            # If the login was successful
+            # store coockiejar for the user
+        
+            # redirect to the page that lists all the studies
+            yield response.follow('https://ucalgary.sona-systems.com/all_exp_participant.aspx', callback=self.get_links, cb_kwargs=dict(cookiejar=cookiejar, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
         else:
             # If the login was unsuccessful, delete the user from the database and send an email to the user
-            yield {'error': 'Login failed', 'email': self.data[-1]['email']}
+            yield {'data': 'Login failed', 'email': user_data['email']}
 
-    def get_links(self, response):
+    def get_links(self, response, cookiejar, user_data):
         # open_in_browser(response)
         links = set()
         # a tag is located in td tag
@@ -117,16 +118,15 @@ class ScrapeSpider(Spider):
         # run another function to add the data to the data[-1] dictionary
         # for link in links:
         #     yield response.follow(link, callback=self.get_details)
-            # self.data[-1]['data'].append(res)
-        yield from response.follow_all(links, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links))
+        yield from response.follow_all(links, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
         
 
-    def get_details(self, response, num_of_links):
+    def get_details(self, response, num_of_links, user_data):
         add_to_data = True
         exp_id = response.url.split('=')[1]
         
         # if the id has already been notified, don't add it to the data
-        if exp_id in self.data[-1]['notified']:
+        if exp_id in user_data['notified']:
             self.num_of_skipped += 1
             add_to_data = False
         else:
@@ -154,11 +154,11 @@ class ScrapeSpider(Spider):
                     key = 'link'
                     value = f'https://ucalgary.sona-systems.com/exp_view_slots.aspx?experiment_id={exp_id}'
                 scraped_data[key] = value
-            self.data[-1]['data'].append(scraped_data) if add_to_data else None
+            user_data['data'].append(scraped_data) if add_to_data else None
             
         # if it's the last link, return the data
-        if len(self.data[-1]['data']) == (num_of_links - self.num_of_skipped):
-            yield self.data[-1]
+        if len(user_data['data']) == (num_of_links - self.num_of_skipped):
+            yield user_data
         
         
 

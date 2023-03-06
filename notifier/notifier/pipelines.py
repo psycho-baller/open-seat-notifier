@@ -116,7 +116,7 @@ class NotifierPipeline:
         opportunity = 'opportunity' if len_links == 1 else 'opportunities'
         body = body_template % (is_or_are, len_links, opportunity, studies, email_receiver)
         
-        self.send_email(email_receiver, subject, body)
+        # self.send_email(email_receiver, subject, body)
         
     def send_unsub_email(self, email_to):
         email_receiver = email_to
@@ -134,27 +134,27 @@ class NotifierPipeline:
 </html>
 """
         # delete the user from the database
-        # query = text("DELETE FROM main WHERE email = :email")
-        row_to_delete = self.session.query('main').filter_by(email=email_receiver).first()
-        self.session.delete(row_to_delete)
+        query = text("DELETE FROM main WHERE email = :email")
+        self.session.execute(query, {'email': email_receiver})
         self.session.commit()
         
-        self.send_email(email_receiver, subject, body)
+        # self.send_email(email_receiver, subject, body)
         
-
-    
-    def process_item(self, item, spider):
-        if spider.name == 'login': 
-            self.end(item)
-        data = item['data']
-        if len(data) == 0: # if there are no new studies, don't send an email
-            self.end(item)
-        self.session = item['session']
-        # if there are new studies, send an email
-        self.send_sub_email(item['email'], data) if not (item['error'] == 'Login failed') else self.send_unsub_email(item['email'])
-
-        self.end(item)
-
-    def end(self,item):
+    def end(self, item):
         self.session.close() if self.session else None
         return item
+    
+    def process_item(self, item, spider):
+        self.session = spider.session
+        data = item['data']
+        if spider.name == 'login' or len(data) == 0: # if there are no new studies, don't send an email
+            return self.end(item)
+        elif item['data'] == 'Login failed':
+            self.send_unsub_email(item['email'])
+            return self.end(item)
+        # if there are new studies, send an email
+        self.send_sub_email(item['email'], data)
+
+        return self.end(item)
+
+
