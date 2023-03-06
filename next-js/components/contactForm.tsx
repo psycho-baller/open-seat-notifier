@@ -99,8 +99,8 @@ const ContactForm = () => {
             isClosable: true,
           });
         }
-      );
-    setLoading(false);
+      )
+      .then(() => setLoading(false));
   }
 
   const [show, setShow] = useState(false);
