@@ -54,20 +54,6 @@ const ContactForm = () => {
 
   async function _onSubmit(data: any) {
     setLoading(true);
-
-    // Check validity of credentials
-    // const valid = await checkCredentials(data.username, data.password);
-    // if (!valid) {
-    //   toast({
-    //     title: "Error!",
-    //     description: "Invalid credentials, please try again.",
-    //     status: "error",
-    //     duration: 3000,
-    //     isClosable: true,
-    //   });
-    //   return;
-    // }
-
     const email = data.email;
     const username = data.username;
     const password = encrypt(data.password);
@@ -77,7 +63,7 @@ const ContactForm = () => {
         method: "POST",
         body: JSON.stringify({ email, username, password }),
       }
-    )) as Response; // }) //   setLoading(false); // .then(() => {
+    ).then(() => setLoading(false))) as Response;
     if (res.status === 201) {
       toast({
         title: "User added successfully",
@@ -185,7 +171,7 @@ const ContactForm = () => {
           />
           <FormHelperText>the email you want to get notified in</FormHelperText>
         </FormControl>
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-1">
           <Button
             as={motion.button}
             initial="initial"
@@ -204,9 +190,8 @@ const ContactForm = () => {
               whileTap="tap"
               variants={lClickables}
             >
-              Notify Me
+              {loading ? <Spinner size={"lg"} /> : "Notify me!"}
             </motion.p>
-            {!{ loading } && <Spinner />}
           </Button>
         </div>
       </form>
