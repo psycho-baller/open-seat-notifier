@@ -48,7 +48,7 @@ class ScrapeSpider(Spider):
     prohibited = 'Sign-Up prohibited because of Sign-Up Restrictions. There are study pre-requisite or disqualifier requirements which you do not meet.'
     # Fetch data from the database using a session
     def start_requests(self):
-        db_url = self.settings.get('DB_URL', 'postgresql://psycho-baller:JEVl1K9XgZqY@ep-nameless-thunder-103753.cloud.neon.tech/neondb')
+        db_url = self.settings.get('DB_URL')
         # initialize the database connection
         # Create a SQLAlchemy engine object to connect to the database
         engine = create_engine(db_url)
@@ -82,7 +82,7 @@ class ScrapeSpider(Spider):
                                         formdata={
                                             'csrf_token': csrf_token,
                                             'ctl00$ContentPlaceHolder1$userid': username,
-                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY', 'EIXLSNTENGISSWZS')),
+                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY')),
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
                                         callback=self.after_login,
