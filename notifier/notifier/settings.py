@@ -16,6 +16,7 @@ BOT_NAME = "notifier"
 SPIDER_MODULES = ["notifier.spiders"]
 NEWSPIDER_MODULE = "notifier.spiders"
 
+# DOWNLOAD_DELAY = 1
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "notifier (+http://www.yourdomain.com)"

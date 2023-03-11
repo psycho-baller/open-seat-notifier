@@ -139,11 +139,11 @@ class NotifierPipeline:
         self.session.commit()
         
         # self.send_email(email_receiver, subject, body)
-        
+
     def end(self, item):
         self.session.close() if self.session else None
         return item
-    
+
     def process_item(self, item, spider):
         self.session = spider.session
         data = item['data']

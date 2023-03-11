@@ -1,7 +1,7 @@
 from scrapy import FormRequest, Spider, Request
 from scrapy.utils.response import open_in_browser
 from scrapy.utils.project import get_project_settings
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import base64
@@ -48,7 +48,7 @@ class ScrapeSpider(Spider):
     prohibited = 'Sign-Up prohibited because of Sign-Up Restrictions. There are study pre-requisite or disqualifier requirements which you do not meet.'
     # Fetch data from the database using a session
     def start_requests(self):
-        db_url = self.settings.get('DB_URL')
+        db_url = self.settings.get('DB_URL', 'postgresql://psycho-baller:JEVl1K9XgZqY@ep-nameless-thunder-103753.cloud.neon.tech/neondb')
         # initialize the database connection
         # Create a SQLAlchemy engine object to connect to the database
         engine = create_engine(db_url)
@@ -61,8 +61,8 @@ class ScrapeSpider(Spider):
         
         # for user in users:
         for user in users:
+            self.num_of_skipped = 0
             self.logger.info('Scraping user: %s', user.email)
-            self.num_of_skipped = 0 # number of skipped studies (already signed up or prohibited)
             user_data = {
                 'email': user.email,
                 'notified': user.notified_studies,
@@ -82,7 +82,7 @@ class ScrapeSpider(Spider):
                                         formdata={
                                             'csrf_token': csrf_token,
                                             'ctl00$ContentPlaceHolder1$userid': username,
-                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY')),
+                                            'ctl00$ContentPlaceHolder1$pw': decrypt(password, self.settings.get('DECRYPT_KEY', 'EIXLSNTENGISSWZS')),
                                             'ctl00$ContentPlaceHolder1$_default_auth_button': 'Log In'
                                         },
                                         callback=self.after_login,
@@ -92,7 +92,7 @@ class ScrapeSpider(Spider):
                                         )
 
     def after_login(self, response, cookiejar, user_data):
-        open_in_browser(response)
+        # open_in_browser(response)
         # Check if the login was successful
         if "VIEW AVAILABLE STUDIES" in response.text:
             # If the login was successful
@@ -109,56 +109,70 @@ class ScrapeSpider(Spider):
         links = set()
         # a tag is located in td tag
         scraped_links = response.css('td a::attr(href)').getall()
+        # get the last study id
+        self.last_study_id = scraped_links[0].split('=')[1]
         for link in scraped_links:
             # get the id of the study from the link
             id = link.split('=')[1]
-            links.add(
-                f'https://ucalgary.sona-systems.com/exp_info_participant.aspx?experiment_id={id}')
+            # if the id has already been notified, don't add it to the data
+            links.add(f'https://ucalgary.sona-systems.com/exp_info_participant.aspx?experiment_id={id}') if id not in user_data['notified'] else None
         num_of_links = len(links)
         # run another function to add the data to the data[-1] dictionary
-        # for link in links:
-        #     yield response.follow(link, callback=self.get_details)
-        yield from response.follow_all(links, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
+        
+        link = links.pop()
+        
+        yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data, links = links), meta={'cookiejar': cookiejar}, dont_filter=True)
+        
+        # for index, link in enumerate(links):
+        #     # if the link is the last link
+        #     if index == num_of_links - 1:
+        #         # add the data to the user_data dictionary
+        #         yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data, last_link=True), meta={'cookiejar': cookiejar}, dont_filter=True)
+        #     yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
+        # yield from response.follow_all(links, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
+        # after all the links have been followed, yield the data
+        # yield user_data
         
 
-    def get_details(self, response, num_of_links, user_data):
+    def get_details(self, response, num_of_links, user_data, links):
         add_to_data = True
         exp_id = response.url.split('=')[1]
+        # user_data['data']
         
-        # if the id has already been notified, don't add it to the data
-        if exp_id in user_data['notified']:
-            self.num_of_skipped += 1
-            add_to_data = False
+        scraped_data = {}
+        # add experiment id to the data
+        scraped_data['id'] = exp_id
+        # for each tr tag in tbody tag, get the th text inside a span sometimes and make it the key and
+        # the first text inside a span from the first td tag the value
+        for tr in response.css('tbody tr'):
+            # sometimes the key is inside a span tag and sometimes it's not
+            key = tr.css('th span::text').get() or tr.css('th::text').get()
+            key = str(key).strip()
+            # if key == 'Study Type':
+            #     value = str(tr.css('td strong::text').get()).strip()
+            # else:
+            #     value = str(tr.css('td span::text').get()).strip()
+            # # inline if statement
+            value = str(tr.css('td strong::text').get()).strip(
+            ) if key == 'Study Type' else str(tr.css('td span::text').get()).strip()
+            if self.already_signed_up in value or self.prohibited in value:
+                add_to_data = False
+                self.num_of_skipped += 1
+                continue
+            elif value == 'None':
+                key = 'link'
+                value = f'https://ucalgary.sona-systems.com/exp_view_slots.aspx?experiment_id={exp_id}'
+            scraped_data[key] = value
+        user_data['data'].append(scraped_data) if add_to_data else None
+        
+        self.logger.info('Number of links: %s == %s', len(user_data['data']), (num_of_links - self.num_of_skipped))
+        if len(links) > 0:
+            link = links.pop()
+            yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data, links = links), meta={'cookiejar': response.meta['cookiejar']}, dont_filter=True)
         else:
-            scraped_data = {}
-            # add experiment id to the data
-            scraped_data['id'] = exp_id
-            # for each tr tag in tbody tag, get the th text inside a span sometimes and make it the key and
-            # the first text inside a span from the first td tag the value
-            for tr in response.css('tbody tr'):
-                # sometimes the key is inside a span tag and sometimes it's not
-                key = tr.css('th span::text').get() or tr.css('th::text').get()
-                key = str(key).strip()
-                # if key == 'Study Type':
-                #     value = str(tr.css('td strong::text').get()).strip()
-                # else:
-                #     value = str(tr.css('td span::text').get()).strip()
-                # # inline if statement
-                value = str(tr.css('td strong::text').get()).strip(
-                ) if key == 'Study Type' else str(tr.css('td span::text').get()).strip()
-                if self.already_signed_up in value or self.prohibited in value:
-                    add_to_data = False
-                    self.num_of_skipped += 1
-                    continue
-                elif value == 'None':
-                    key = 'link'
-                    value = f'https://ucalgary.sona-systems.com/exp_view_slots.aspx?experiment_id={exp_id}'
-                scraped_data[key] = value
-            user_data['data'].append(scraped_data) if add_to_data else None
-            
-        # if it's the last link, return the data
-        if len(user_data['data']) == (num_of_links - self.num_of_skipped):
             yield user_data
+        # if it's the last link, return the data
+        # if len(user_data['data']) == (num_of_links - self.num_of_skipped):
         
         
 
