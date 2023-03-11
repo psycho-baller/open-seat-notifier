@@ -16,14 +16,14 @@ export default class Document extends NextDocument {
               <Script
                 id="google-analytics-1"
                 strategy="lazyOnload"
-                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA}`}
+                src={`https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GA}`}
               />
               <Script id="google-analytics-2" strategy="lazyOnload">
                 {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${process.env.NEXT_PUBLIC_GA}', {
+          gtag('config', '${NEXT_PUBLIC_GA}', {
           page_path: window.location.pathname,
           });
         `}
