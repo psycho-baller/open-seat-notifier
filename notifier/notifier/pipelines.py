@@ -116,7 +116,7 @@ class NotifierPipeline:
         opportunity = 'opportunity' if len_links == 1 else 'opportunities'
         body = body_template % (is_or_are, len_links, opportunity, studies, email_receiver)
         
-        # self.send_email(email_receiver, subject, body)
+        self.send_email(email_receiver, subject, body)
         
     def send_unsub_email(self, email_to):
         email_receiver = email_to
@@ -138,7 +138,7 @@ class NotifierPipeline:
         self.session.execute(query, {'email': email_receiver})
         self.session.commit()
         
-        # self.send_email(email_receiver, subject, body)
+        self.send_email(email_receiver, subject, body)
 
     def end(self, item):
         self.session.close() if self.session else None

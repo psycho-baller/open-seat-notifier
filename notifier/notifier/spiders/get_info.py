@@ -1,6 +1,4 @@
 from scrapy import FormRequest, Spider, Request
-from scrapy.utils.response import open_in_browser
-from scrapy.utils.project import get_project_settings
 from sqlalchemy import create_engine, Column, Integer, String, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -56,8 +54,6 @@ class ScrapeSpider(Spider):
         Session = sessionmaker(bind=engine)
         self.session = Session()
         users = self.session.query(Table).all()
-        # session.close()
-        
         
         # for user in users:
         for user in users:
@@ -68,7 +64,7 @@ class ScrapeSpider(Spider):
                 'notified': user.notified_studies,
                 'data': []
             }
-            
+            # store coockiejar for the user
             yield Request(self.urls[0], callback=self.parse, cb_kwargs=dict(username=user.username, password=user.password, cookiejar=user.id, user_data=user_data), meta={'cookiejar': user.id}, dont_filter=True)
 
     def parse(self, response, username, password, cookiejar, user_data):
@@ -96,8 +92,6 @@ class ScrapeSpider(Spider):
         # Check if the login was successful
         if "VIEW AVAILABLE STUDIES" in response.text:
             # If the login was successful
-            # store coockiejar for the user
-        
             # redirect to the page that lists all the studies
             yield response.follow('https://ucalgary.sona-systems.com/all_exp_participant.aspx', callback=self.get_links, cb_kwargs=dict(cookiejar=cookiejar, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
         else:
@@ -109,32 +103,18 @@ class ScrapeSpider(Spider):
         links = set()
         # a tag is located in td tag
         scraped_links = response.css('td a::attr(href)').getall()
-        # get the last study id
-        self.last_study_id = scraped_links[0].split('=')[1]
         for link in scraped_links:
             # get the id of the study from the link
             id = link.split('=')[1]
             # if the id has already been notified, don't add it to the data
             links.add(f'https://ucalgary.sona-systems.com/exp_info_participant.aspx?experiment_id={id}') if id not in user_data['notified'] else None
         num_of_links = len(links)
-        # run another function to add the data to the data[-1] dictionary
-        
         link = links.pop()
         
-        yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data, links = links), meta={'cookiejar': cookiejar}, dont_filter=True)
-        
-        # for index, link in enumerate(links):
-        #     # if the link is the last link
-        #     if index == num_of_links - 1:
-        #         # add the data to the user_data dictionary
-        #         yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data, last_link=True), meta={'cookiejar': cookiejar}, dont_filter=True)
-        #     yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
-        # yield from response.follow_all(links, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data), meta={'cookiejar': cookiejar}, dont_filter=True)
-        # after all the links have been followed, yield the data
-        # yield user_data
-        
+        yield response.follow(link, callback=self.get_details, cb_kwargs=dict(user_data=user_data, links = links), meta={'cookiejar': cookiejar}, dont_filter=True)
 
-    def get_details(self, response, num_of_links, user_data, links):
+
+    def get_details(self, response, user_data, links):
         add_to_data = True
         exp_id = response.url.split('=')[1]
         # user_data['data']
@@ -155,6 +135,8 @@ class ScrapeSpider(Spider):
             # # inline if statement
             value = str(tr.css('td strong::text').get()).strip(
             ) if key == 'Study Type' else str(tr.css('td span::text').get()).strip()
+            
+            # if the value is already signed up or prohibited, don't add it to the data
             if self.already_signed_up in value or self.prohibited in value:
                 add_to_data = False
                 self.num_of_skipped += 1
@@ -163,18 +145,15 @@ class ScrapeSpider(Spider):
                 key = 'link'
                 value = f'https://ucalgary.sona-systems.com/exp_view_slots.aspx?experiment_id={exp_id}'
             scraped_data[key] = value
+        # add the data to the user_data if the user is not already signed up or prohibited
         user_data['data'].append(scraped_data) if add_to_data else None
         
-        self.logger.info('Number of links: %s == %s', len(user_data['data']), (num_of_links - self.num_of_skipped))
         if len(links) > 0:
-            link = links.pop()
-            yield response.follow(link, callback=self.get_details, cb_kwargs=dict(num_of_links=num_of_links, user_data=user_data, links = links), meta={'cookiejar': response.meta['cookiejar']}, dont_filter=True)
-        else:
+            link = links.pop() # get the next link
+            yield response.follow(link, callback=self.get_details, cb_kwargs=dict(user_data=user_data, links = links), meta={'cookiejar': response.meta['cookiejar']}, dont_filter=True)
+        else: # return the data to the pipeline to be processed and sent to the user as an email and update the database
             yield user_data
-        # if it's the last link, return the data
-        # if len(user_data['data']) == (num_of_links - self.num_of_skipped):
-        
-        
+
 
 if __name__ == '__main__':
     spider = ScrapeSpider()

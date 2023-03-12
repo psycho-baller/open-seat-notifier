@@ -14,8 +14,6 @@ import {
 import { rClickables } from "../../animations/clickables";
 import { motion } from "framer-motion";
 
-
-
 const InfoButton = () => {
   return (
     <Popover>
@@ -48,12 +46,12 @@ const InfoButton = () => {
           >
             University of Calgary&apos;s PSYC courses
           </a>
-          , especially the intro courses (200, 201, 203) where we suffer from constantly
-          trying to find research participation which is one of the requirements
-          for these courses. So what I decided to do was to create a website
-          where people can submit their credentials here and email so that when
-          there&apos;s a new study available, they would be automatically
-          notified, instead of constantly checking the website.
+          , especially the intro courses (200, 201, 203) where we suffer from
+          constantly trying to find research participation which is one of the
+          requirements for these courses. So what I decided to do was to create
+          a website where people can submit their credentials here and email so
+          that when there&apos;s a new study available, they would be
+          automatically notified, instead of constantly checking the website.
         </PopoverBody>
         <PopoverFooter>
           <a
@@ -62,7 +60,7 @@ const InfoButton = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            V1.2
+            V2.0
           </a>
         </PopoverFooter>
       </PopoverContent>
