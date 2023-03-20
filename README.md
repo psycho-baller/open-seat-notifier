@@ -30,8 +30,12 @@ Please [connect with me](#connect-with-me) if you have any good ideas to improve
 
 - **[NextJs](https://nextjs.org/)** to create a full-stack **[ReactJs](https://reactjs.org/)** Application.
 - **[TypeScript](https://www.typescriptlang.org/)** to create a type-safe code.
-- **[Python](https://www.python.org/)** to create the backend (scrape the website and send email automatically).
-- **[PostgreSQL](https://www.postgresql.org/)** to store the data.
+- **[Python](https://www.python.org/)** to scrape the website and send email automatically
+- **[Scrapy](https://scrapy.org/)** With scrapy I'm able to run the scraper infinitely all the time
+  - 1st time using it.
+- **[PostgreSQL](https://www.postgresql.org/)** to securely store the data.
+  - 1st time using it.
+- **[Neon](https://neon.tech/)** a serverless, efficient postgres manager
   - 1st time using it.
 - **[Prisma](https://www.prisma.io/)** a safer, smoother way to interact with the database, especially with next-js.
   - 1st time using it.
@@ -63,6 +67,7 @@ Instagram: [@psycho.baller](https://www.instagram.com/psycho.baller/)
 - [X] change database host
 - [X] make sure the credentials are valid, if not, they recieve an email abt it
 - [X] run the script that checks for new studies on the server instead of in my local machine
+- [X] Run the script that checks for open seats all the time on a server (thanks to scrapy)
 - [ ] enroll with a click of a button, at least for the online studies
 - [ ] be able to have preferences (personalized reminders or general reminders)
   - [ ] easily be able to change your preferences
